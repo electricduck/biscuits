@@ -1,0 +1,25 @@
+@import '@/scss/shared/_variables.scss';
+
+@mixin respond-to($media) {
+  @if $media==mobile {
+    @content;
+  }
+
+  @else if $media==small {
+    @media (min-width: $sml-width) {
+      @content;
+    }
+  }
+
+  @else if $media==medium {
+    @media (min-width: $med-width) {
+      @content;
+    }
+  }
+
+  @else if $media==large {
+    @media (min-width: $lrg-width) {
+      @content;
+    }
+  }
+}

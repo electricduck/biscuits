@@ -1,0 +1,22 @@
+@import "@/scss/themes/_monzo.scss";
+
+body {
+  &.monzo-theme {
+    --accent-color: #{$mnz-accent-color};
+    --accent-fg-color: #{$mnz-accent-fg-color};
+    --background-color: #{$mnz-background-color};
+    --border-color: #{$mnz-border-color};
+    --foreground-color: #{$mnz-foreground-color};
+    --input-bg-color: #{$mnz-input-bg-color};
+    --input-fg-color: #{$mnz-input-fg-color};
+    --nav-bg-color: #{$mnz-nav-bg-color};
+    --nav-fg-color: #{$mnz-nav-fg-color};
+    --overlay-color: #{$mnz-overlay-color};
+    --panel-bg-color: #{$mnz-panel-bg-color};
+    --primary-color: #{$mnz-primary-color};
+    --primary-fg-color:  #{$mnz-primary-fg-color};
+    --radius: #{$mnz-radius};
+    --shadow: #{$mnz-shadow};
+    --well-bg-color: #{$mnz-well-bg-color};
+  }
+}
