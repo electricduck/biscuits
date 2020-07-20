@@ -2,7 +2,11 @@ import localforage from 'localforage'
 
 const dbName = 'biscuits'
 
-export const settingsTbl = localforage.createInstance({
+const store = (name = "") => localforage.createInstance({
   name: dbName,
-  storeName: 'settings'
+  storeName: name
 })
+
+export const settingsTbl = store('settings')
+export const transactionsTbl = store('transations')
+export const usersTbl = store('users')

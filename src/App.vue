@@ -25,24 +25,36 @@ export default {
     };
   },
   methods: {
-    setErrorHandler() {
+    init() {
+      this.$auth.init().then(() => {
+        this.loaded = true;
+      });
+    },
+    handleErrors() {
       Vue.config.errorHandler = err => {
-        this.error = err
-      }
+        this.error = err;
+      };
+
+      window.addEventListener("unhandledrejection", event => {
+        this.error = event.reason;
+        event.preventDefault();
+      });
     }
   },
 
   created() {
-    this.setErrorHandler();
+    this.handleErrors();
   },
-  async mounted() {
-    this.$auth.init().then(() => {
-      this.loaded = true
-    })
+  mounted() {
+    this.init();
   }
 };
 </script>
 
 <style lang="scss">
 @import "@/scss/app.scss";
+
+.app {
+  height: 100%;
+}
 </style>

@@ -1,7 +1,14 @@
-<template functional>
-  <a @click.prevent="navigate(props.link)" class="tab-bar-item" :href="props.link">
+<template>
+  <a
+    @click.prevent="navigate(link)"
+    class="tab-bar-item"
+    :href="link"
+    :class="[
+      { 'tab-bar-item--active' : active }
+    ]"
+    >
     <span class="tab-bar-item-icon">
-      <font-awesome-icon :icon="props.icon" fixed-width />
+      <font-awesome-icon :icon="icon" fixed-width />
     </span>
     <span class="tab-bar-item-text">
       <slot></slot>
@@ -12,19 +19,19 @@
 <script>
 export default {
   props: {
+    active: Boolean,
     icon: {
       default: "plus",
       type: String
     },
-    link: {
-      default: "#",
-      type: String
-    }
+    link: String
   },
   methods: {
     navigate(link) {
       if (link !== undefined) {
-        this.$router.push(link);
+        if(this.$route.fullPath !== link) {
+          this.$router.push(link);
+        }
       } else {
         this.$emit("handle");
       }
@@ -43,7 +50,8 @@ export default {
   padding: #{$padding / 1.5};
   text-align: center;
 
-  &:hover {
+  &:hover,
+  &.tab-bar-item--active {
     color: var(--primary-color);
   }
 
@@ -58,6 +66,7 @@ export default {
 
   .tab-bar-item-text {
     font-size: 12px;
+    user-select: none;
   }
 }
 </style>

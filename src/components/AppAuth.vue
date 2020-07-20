@@ -1,6 +1,6 @@
 <template>
-  <Page class="app-auth fill">
-    <Panel class="app-auth-panel">
+  <Page class="app-auth central fill">
+    <Panel class="app-auth-panel central-inner">
       <template v-slot:header>
         <ActionBar>
           <ActionBarItem>
@@ -100,8 +100,8 @@
         </div>
       </div>
     </Panel>
-    <div class="app-auth-footer">
-      <p class="s-center-align s-low-blend s-xsm-size">
+    <div class="app-auth-footer central-below">
+      <p class="s-center-align s-high-blend s-no-margin s-xsm-size">
         Built by
         <a href="https://github.com/electricduck" target="_blank">Ducky</a>, with Vue and his bare hands
       </p>
@@ -211,8 +211,6 @@ export default {
   async mounted() {
     this.loadSetup();
 
-    //this.retryInterval = setInterval(function() { alert("hi") }, 3000)
-
     if (this.$route.path.startsWith("/callback")) {
       this.handleAuthCallback(this.$route);
     }
@@ -231,28 +229,14 @@ export default {
 @import "@/scss/shared/_variables.scss";
 
 .app-auth {
-  display: grid;
-  grid-template-columns: 1fr auto 1fr;
-  grid-template-rows: 1fr auto 1fr;
-
-  .app-auth-panel,
-  .app-auth-footer {
-    grid-column: 2;
-  }
-
   .app-auth-panel {
     display: inline-block;
-    grid-row: 2;
     width: 400px;
 
     .panel-inner {
       padding-bottom: #{$padding * 2};
       padding-top: #{$padding * 2};
     }
-  }
-
-  .app-auth-footer {
-    grid-row: 3;
   }
 }
 </style>

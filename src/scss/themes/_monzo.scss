@@ -1,4 +1,9 @@
-$mnz-accent-color: #fe4d55;
+$monzo-personal-card: #fe4d55;
+$monzo-plus-card: #2992cc;
+$monzo-plus-card-gradient: linear-gradient(to top right, #{darken($monzo-plus-card, 10%)}, #{$monzo-plus-card}, #{darken($monzo-plus-card, 10%)});
+$monzo-business-card: #738591;
+
+$mnz-accent-color: $monzo-personal-card;
 $mnz-accent-fg-color: white;
 $mnz-background-color: #f7f7f7;
 $mnz-border-color: #c8c8ca;
@@ -12,6 +17,5 @@ $mnz-panel-bg-color: #ffffff;
 $mnz-primary-color: #01a3Da;
 $mnz-primary-fg-color: white;
 $mnz-radius: 5px;
-//$mnz-shadow: 0 0 5px #d1d1d1;
-$mnz-shadow: 0 0 5px rgba(0,0,0,0.1);
+$mnz-shadow: 0 0 5px rgba(0,0,0,0.2);
 $mnz-well-bg-color: rgba(0,0,0,0.1);

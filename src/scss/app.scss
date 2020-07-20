@@ -1,8 +1,12 @@
 @import "@/scss/shared/_variables.scss";
 
+@import "@/scss/common/_theme.scss";
+@import "@/scss/common/_animation.scss";
+
+@import "@/scss/common/_amount.scss";
+@import "@/scss/common/_central.scss";
 @import "@/scss/common/_fill.scss";
 @import "@/scss/common/_panel.scss";
-@import "@/scss/common/_theme.scss";
 
 @import url('https://fonts.googleapis.com/css2?family=Sen:wght@400;700&family=Sora:wght@500;700&display=swap');
 

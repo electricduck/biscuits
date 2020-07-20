@@ -74,7 +74,7 @@
     }
 
     &.s-low-blend {
-      opacity: 0.6;
+      opacity: 0.4;
     }
   }
 
@@ -88,6 +88,7 @@
     margin-right: $padding;
     overflow: auto;
     padding: #{$padding / 2};
+    white-space: pre;
   }
 
   h1,

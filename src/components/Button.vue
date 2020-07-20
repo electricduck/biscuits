@@ -85,6 +85,7 @@ export default {
 
   &.button--transparent {
     background-color: var(--well-bg-color);
+    color: inherit !important;
   }
 
   &.button--wide {

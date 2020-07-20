@@ -1,12 +1,10 @@
 <template>
   <Page class="fill home central">
     <div class="central-inner">
-      <h1 class="s-no-margin">Hello.</h1>
-      <h2 class="s-light-weight">Welcome to Biscuits.</h2>
+      <h1 class="s-no-margin">Hmm.</h1>
+      <h2 class="s-light-weight">We can't find that.</h2>
       <p>
-        <Button link="/accounts/0">
-          Go to my Monzo account
-        </Button>
+        <Button icon="home" link="/">Home</Button>
       </p>
     </div>
   </Page>

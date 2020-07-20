@@ -13,6 +13,10 @@ Vue.prototype.$api = api
 Vue.prototype.$auth = auth
 Vue.prototype.$store = store
 
+window.onerror = function (msg, url, line, col, error) {
+  alert(`${msg} ${url} ${line} ${col} ${error} oh no!`)
+}
+
 thirdParty.FontAwesome()
 
 new Vue({

@@ -1,7 +1,35 @@
+import auth from "../auth"
 import setting from "../setting"
 import { TOKEN } from "../setting/keys"
 
 let prefix = "https://api.monzo.com"
+
+const handle = async (
+  response = new Response()
+) => {
+  if(!response.ok) {
+    let code = response.status
+    let error = ""
+
+    if(code === 403) {
+      await auth.logout()
+    }
+
+    if(code >= 400 && code < 600) {
+      error = `HTTP ${code}`
+      await response.json().then((data) => {
+        if (data) {
+          error += ` (${data["code"]})
+${data["message"]}`
+        }
+      })
+    }
+
+    throw new Error(error)
+  }
+
+  return response.json()
+}
 
 const request = async (
   endpoint = "",
@@ -13,10 +41,10 @@ const request = async (
   let query = ""
   let token = ""
 
-  if(auth) {
-    token = await setting.get(TOKEN);
-    if(token) {
-      token = `Bearer ${token}`
+  if (auth) {
+    let allTokens = await setting.get(TOKEN);
+    if(allTokens) {
+      token = `Bearer ${allTokens.access_token}`
     }
   }
 
@@ -47,8 +75,8 @@ const request = async (
       method: method
     }
   )
-
-  return response.json()
+  
+  return handle(response)
 }
 
 const base = {

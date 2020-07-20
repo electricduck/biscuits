@@ -1,0 +1,28 @@
+@import "@/scss/shared/_variables.scss";
+
+.central {
+  display: grid;
+  grid-template-columns: 1fr $padding auto $padding 1fr;
+  grid-template-rows: 1fr $padding auto auto auto $padding 1fr;
+
+  .central-inner,
+  .central-above,
+  .central-below {
+    grid-column: 3;
+  }
+
+  .central-above,
+  .central-below {
+    &:not(:empty) {
+      padding: $padding 0;
+    }
+  }
+
+  .central-inner {
+    grid-row: 4;
+  }
+
+  .central-below {
+    grid-row: 5;
+  }
+}

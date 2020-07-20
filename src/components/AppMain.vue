@@ -4,7 +4,7 @@
       <Sidebar />
     </div>
     <div class="app-main-panel app-main-panel--content">
-      content
+      <router-view />
     </div>
   </div>
 </template>
@@ -24,9 +24,11 @@ export default {
 .app-main {
   display: grid;
   grid-template-columns: 450px 1fr;
+  overflow: hidden;
 
   .app-main-panel {
     border-right: 1px solid var(--border-color);
+    overflow-y: auto;
 
     &:last-of-type {
       border-right-width: 0;
