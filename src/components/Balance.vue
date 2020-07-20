@@ -1,6 +1,6 @@
 <template>
   <div class="amount balance" :class="{ 'balance--loaded' : loaded }">
-    <span>{{ (computedBalance) ? computedBalance.symbol : "£" }}</span>
+    <span>{{ (computedBalance) ? computedBalance.symbol : "¤" }}</span>
     <span>{{ (computedBalance) ? computedBalance.absolute : "0" }}</span>
     <span>.{{ (computedBalance) ? computedBalance.decimal : "00" }}</span>
   </div>
@@ -11,7 +11,7 @@ export default {
   computed: {
     computedBalance: function() {
       if(!this.balance) {
-        return this.$store.state.balances.find(b => b.id === this.id)
+        return this.$store.state.balance.allBalances.find(b => b.id === this.id)
       } else {
         return this.balance
       }

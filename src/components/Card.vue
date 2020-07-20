@@ -1,13 +1,14 @@
 <template>
   <div class="card-container">
-    <div class="card"
+    <div
+      class="card"
       :class="[
         { 'card--business' : type == 'uk_business' },
         { 'card--joint' : type === 'uk_retail_joint' },
         { 'card--plus' : type === 'uk_retail_plus' },
         { 'card--pot' : type === 'pot' }
       ]"
-      :style="{ backgroundImage: 'url(' + image + ')' }"
+      :style="{ backgroundImage: backgroundImage }"
     >
       <div class="card-inner">
         <div class="card-inner-badge"></div>
@@ -21,6 +22,25 @@
 
 <script>
 export default {
+  computed: {
+    backgroundImage: function() {
+      if (this.image) {
+        if (this.image.startsWith("https://")) {
+          return `url(${this.image})`;
+        } else if (this.image.startsWith("color_")) {
+          let color = this.image.replace("color_", "");
+          return `linear-gradient(0deg, ${color}, ${color})`;
+        } else {
+          switch(this.image) {
+            default:
+              return `linear-gradient(0deg, var(--accent-color), var(--accent-color))`;
+          }
+        }
+      }
+
+      return null;
+    }
+  },
   props: {
     image: {
       default: "",
@@ -31,7 +51,7 @@ export default {
       type: String
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -98,7 +118,7 @@ export default {
       }
 
       .card-inner-chip {
-        background-color: #C4C3C4;
+        background-color: #c4c3c4;
         border-radius: 10%;
         grid-column: 2;
         grid-row: 3;

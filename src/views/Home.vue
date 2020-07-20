@@ -4,7 +4,7 @@
       <h1 class="s-no-margin">Hello.</h1>
       <h2 class="s-light-weight">Welcome to <span class="brand"></span>.</h2>
       <p>
-        <Button link="/accounts/0">
+        <Button :link="'/accounts/' + this.$store.state.accounts.defaultAccount.id">
           Go to my Monzo account
         </Button>
       </p>

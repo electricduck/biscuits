@@ -10,6 +10,10 @@ import DualColumnLayout from "@/components/Layouts/DualColumnLayout.vue";
 export default {
   components: {
     DualColumnLayout
+  },
+
+  beforeMount() {
+    this.$store.dispatch('invokeTransactions', 'acc_00009pjDWvoCpI4Jf8cMRl')
   }
 };
 </script>

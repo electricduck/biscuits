@@ -82,7 +82,7 @@ export default {
 
 .dual-column-layout {
   display: grid;
-  grid-template-columns: 1fr 400px;
+  grid-template-columns: 1fr 450px;
   grid-template-rows: auto auto;
   padding: $padding;
 

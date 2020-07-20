@@ -38,7 +38,7 @@ export default {
           component: "Accounts",
           icon: "wallet",
           overflow: false
-        },
+        }/*,
         {
           component: "Pots",
           icon: "coins",
@@ -64,7 +64,7 @@ export default {
           component: "About",
           icon: "info-circle",
           overflow: true
-        }/*,
+        },
         {
           component: "Applets",
           icon: "cog"

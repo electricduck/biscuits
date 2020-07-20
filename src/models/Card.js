@@ -5,7 +5,6 @@ const buildOwners = (owners) => {
   let output = ""
 
   for (let i = 0; i < owners.length; i++) {
-    console.log(owners[i])
     output += owners[i].shortName
 
     if(i+2 === owners.length) {
@@ -20,7 +19,7 @@ const buildOwners = (owners) => {
   return output
 }
 
-const description = (type, owners) => {
+const title = (type, owners) => {
   switch(type) {
     case 'uk_business':
       return "Your Business Account";
@@ -40,7 +39,9 @@ export default class Card {
     created = new Date(),
     currency = "",
     id = "",
-    owners = [new Person()],
+    image = "",
+    name = "",
+    owners = [new Person({})],
     type = ""
   }) {
     this.accountNumber = accountNumber
@@ -49,9 +50,10 @@ export default class Card {
       currency: currency
     })
     this.created = created
-    this.description = description(type, owners)
     this.id = id
+    this.image = image
     this.owners = owners
+    this.title = name || title(type, owners)
     this.type = type
   }
 }

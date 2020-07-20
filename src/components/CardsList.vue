@@ -4,17 +4,17 @@
       v-for="card in cards"
       :key="card.id"
       class="cards-list-item"
-      :to="'/accounts/' + card.id"
+      :to="prefix(card.type) + card.id"
     >
       <div class="cards-list-item-indicator">
         <font-awesome-icon class="cards-list-item-indicator-svg" icon="chevron-right" />
       </div>
-      <Card class="cards-list-item-card" :type="card.type" />
+      <Card class="cards-list-item-card" :image="card.image" :type="card.type" />
       <div class="cards-list-item-balance">
         <Balance :id="card.id" />
       </div>
       <div class="cards-list-item-title">
-        {{ card.description }}
+        {{ card.title }}
       </div>
     </router-link>
   </div>
@@ -29,12 +29,22 @@ export default {
     Balance,
     Card
   },
+  methods: {
+    prefix(type) {
+      switch(type) {
+        case "pot":
+          return "/pots/"
+        default:
+          return "/accounts/"
+      }
+    }
+  },
   props: {
     cards: {}
   },
 
   beforeMount() {
-    this.$store.dispatch("updateBalances");
+    this.$store.dispatch("invokeBalances");
   }
 };
 </script>
@@ -96,7 +106,8 @@ export default {
     }
 
     .cards-list-item-title {
-      font-size: 0.7em;
+      font-size: 0.8em;
+      font-weight: 500;
       grid-row: 3;
     }
   }

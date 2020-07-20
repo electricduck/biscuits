@@ -10,15 +10,15 @@ const handle = async (
   if(!response.ok) {
     let code = response.status
     let error = ""
-    let throwErr = false
+    let throwErr = true
 
     if(code === 401) {
       await auth.logout()
+      throwErr = false
     }
 
     if(code >= 400 && code < 600) {
       error = `HTTP ${code}`
-      throwErr = true
       await response.json().then((data) => {
         if (data) {
           error += ` (${data["code"]})

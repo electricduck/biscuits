@@ -12,9 +12,11 @@
         </ActionBarItem>
       </template>
     </ActionBar>
-    <Balance :balance="this.$store.state.balance" class="sidebar-header-balance" />
+    <Balance :balance="this.$store.state.balance.totalBalance" class="sidebar-header-balance" />
     <div class="sidebar-header-description">
-      <strong>Josh Robertson</strong>
+      <strong>
+        {{ this.$store.state.accounts.defaultAccount.owners[0].fullName }}
+      </strong>
     </div>
   </div>
 </template>

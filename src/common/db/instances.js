@@ -7,6 +7,6 @@ const store = (name = "") => localforage.createInstance({
   storeName: name
 })
 
+export const cacheTbl = store('cache')
 export const settingsTbl = store('settings')
-export const transactionsTbl = store('transations')
-export const usersTbl = store('users')
+export const transactionsTbl = store('transactions')
