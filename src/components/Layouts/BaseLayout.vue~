@@ -47,7 +47,7 @@ export default {
     }
   }
 
-  .base-layout-content {
+  .base-layout-contet {
     display: none;
   }
 

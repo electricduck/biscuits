@@ -6,11 +6,12 @@ export default class Balance {
     currency = "",
     id = ""
   }) {
-    this.absolute = (Math.trunc(amount / 100)).toString()
     this.amount = amount
     this.currency = currency
-    this.decimal = (Math.round(((amount / 100) % 1) * 100)).toString().padStart(2, '0')
     this.id = id
+
+    this.absolute = (Math.trunc(this.amount / 100)).toString()
+    this.decimal = (Math.round(((this.amount / 100) % 1) * 100)).toString().padStart(2, '00')
     this.symbol = getCurrencySymbol(currency)
   }
 }

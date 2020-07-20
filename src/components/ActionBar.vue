@@ -1,5 +1,5 @@
 <template>
-  <div class="action-bar">
+  <div class="action-bar" :class="{ 'action-bar--transparent' : transparent }">
     <div class="action-bar-content">
       <slot name="content"></slot>
     </div>
@@ -17,21 +17,54 @@
   </div>
 </template>
 
+<script>
+export default {
+  props: {
+    transparent: Boolean
+  }
+}
+</script>
+
 <style lang="scss">
 @import "@/scss/shared/_variables.scss";
 
 .action-bar {
-  $height: 56px;
-
   background-color: var(--accent-color);
   box-shadow: var(--shadow);
-  min-height: $height;
+  color: var(--accent-fg-color);
+  min-height: $action-bar-height;
+  pointer-events: none;
   position: relative;
+
+  & + .fill {
+    margin-top: -#{$action-bar-height};
+    padding-top: #{$action-bar-height};
+  }
+
+  &.action-bar--transparent {
+    background-color: unset;
+    box-shadow: unset;
+    color: inherit;
+
+    .action-bar-item {
+      color: inherit;
+    }
+
+    & + .base-layout,
+    & + .fill {
+      padding-top: 0 !important;
+    }
+  }
+
+  .action-bar-content,
+  .action-bar-item {
+    pointer-events: auto;
+  }
 
   .action-bar-content {
     color: var(--accent-fg-color);
     font-size: 14px;
-    padding: $height $padding $padding $padding;
+    padding: $action-bar-height $padding $padding $padding;
 
     &:empty {
       display: none;
@@ -46,7 +79,7 @@
   .action-bar-float {
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    height: $height;
+    height: $action-bar-height;
     left: 0;
     padding: 0 $padding;
     position: absolute;
@@ -56,7 +89,7 @@
     .action-bar-left,
     .action-bar-middle,
     .action-bar-right {
-      height: $height;
+      height: $action-bar-height;
     }
 
     .action-bar-middle {

@@ -1,0 +1,16 @@
+@import "@/scss/shared/_variables.scss";
+
+.brand {
+  font-family: $display-fonts;
+  font-weight: 700;
+
+  &.brand--lowercase {
+    text-transform: lowercase;
+  }
+
+  &:empty {
+    &:after {
+      content: 'Biscuits';
+    }
+  }
+}

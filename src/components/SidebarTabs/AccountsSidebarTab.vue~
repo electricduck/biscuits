@@ -1,34 +1,28 @@
 <template>
   <BaseLayout class="sidebar-accounts" :loaded="loaded">
-    <CardsList :cards="$store.state.accounts" />
+    <CardsList :cards="cards" />
   </BaseLayout>
 </template>
 
 <script>
 import BaseLayout from "@/components/Layouts/BaseLayout.vue";
 import CardsList from "@/components/CardsList.vue";
-//import Card from "@/models/Card.js";
-//import Person from "@/models/Person.js";
+import Card from "@/models/Card.js";
+import Person from "@/models/Person.js";
 
 export default {
   components: {
     BaseLayout,
     CardsList
   },
-  computed: {
-    loaded: function() {
-      if((
-        this.$store.state.accounts.length > 0 &&
-        this.$store.state.balances.length > 0
-      )) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+  data: function() {
+    return {
+      cards: {},
+      loaded: false
+    };
   },
   methods: {
-    /*buildCards(accounts) {
+    buildCards(accounts) {
       return new Promise(resolve => {
         let cards = [];
 
@@ -64,18 +58,17 @@ export default {
 
         resolve(cards);
       });
-    }*/
+    }
   },
 
   async beforeMount() {
-    this.$store.dispatch('updateAccounts')
-    //this.$store.dispatch('updateBalances')
-    /*this.$api.accounts.getAccounts().then(data => {
+    this.$store.dispatch('updateBalances')
+    this.$api.accounts.getAccounts().then(data => {
       this.buildCards(data.accounts).then(cards => {
         this.cards = cards;
         this.loaded = true;
       });
-    });*/
+    });
   }
 };
 </script>

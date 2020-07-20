@@ -22,4 +22,16 @@
       @content;
     }
   }
+
+  @else if $media==xlarge {
+    @media (min-width: $xlg-width) {
+      @content;
+    }
+  }
+
+  @else if $media==mobile-only {
+    @media (max-width: ($sml-width - 1px)) {
+      @content
+    }
+  }
 }

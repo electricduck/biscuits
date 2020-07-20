@@ -50,6 +50,8 @@ export default {
   padding: #{$padding / 1.5};
   text-align: center;
 
+  &:active,
+  &:focus,
   &:hover,
   &.tab-bar-item--active {
     color: var(--primary-color);
@@ -67,6 +69,36 @@ export default {
   .tab-bar-item-text {
     font-size: 12px;
     user-select: none;
+  }
+}
+
+.tab-bar-overflow-menu {
+  .tab-bar-item {
+    padding: #{$padding / 2.5} #{$padding};
+    text-align: left;
+
+    &:active,
+    &:focus,
+    &:hover,
+    &.tab-bar-item--active {
+      background-color: var(--primary-color);
+      color: var(--primary-fg-color);
+    }
+
+    .tab-bar-item-icon,
+    .tab-bar-item-text {
+      display: inline-block;
+      line-height: 14px;
+      font-size: 14px;
+      vertical-align: middle;
+    }
+
+    .tab-bar-item-icon {
+      float: right;
+      font-size: 12px;
+      opacity: 0.4;
+      padding-left: #{$padding / 2};
+    }
   }
 }
 </style>

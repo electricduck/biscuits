@@ -4,7 +4,7 @@
       v-for="card in cards"
       :key="card.id"
       class="cards-list-item"
-      :to="'/account/' + card.id"
+      :to="'/accounts/' + card.id"
     >
       <div class="cards-list-item-indicator">
         <font-awesome-icon class="cards-list-item-indicator-svg" icon="chevron-right" />
@@ -30,7 +30,7 @@ export default {
     Card
   },
   props: {
-    cards: Array
+    cards: {}
   },
 
   beforeMount() {

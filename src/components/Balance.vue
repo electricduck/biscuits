@@ -13,7 +13,6 @@ export default {
       if(!this.balance) {
         return this.$store.state.balances.find(b => b.id === this.id)
       } else {
-        console.log(this.balance.amount)
         return this.balance
       }
     }

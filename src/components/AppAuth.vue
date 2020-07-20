@@ -50,7 +50,7 @@
                   </li>
                 </ul>
                 <p class="s-sml-size">
-                  You'll find your
+                  You'll find the
                   <strong>Client ID</strong> and
                   <strong>Client secret</strong> on your newly created OAuth2 app.
                 </p>
@@ -75,7 +75,7 @@
           <h1 class="s-accent-color s-center-align s-no-height">
             <font-awesome-icon icon="cookie-bite" />
           </h1>
-          <h2 class="s-center-align s-no-margin">Biscuits</h2>
+          <h2 class="s-center-align s-no-margin"><span class="brand"></span></h2>
           <p class="s-center-align s-high-blend">A tasty web client for Monzo</p>
           <p>
             <Button icon="sign-in-alt" :link="oauthUrl" :wide="true" v-if="oauthUrl">Login</Button>
@@ -100,12 +100,6 @@
         </div>
       </div>
     </Panel>
-    <div class="app-auth-footer central-below">
-      <p class="s-center-align s-high-blend s-no-margin s-xsm-size">
-        Built by
-        <a href="https://github.com/electricduck" target="_blank">Ducky</a>, with Vue and his bare hands
-      </p>
-    </div>
   </Page>
 </template>
 
@@ -119,6 +113,8 @@ import Panel from "@/components/Panel.vue";
 
 import setting from "../common/setting";
 import { MONZO_CLIENTID, MONZO_CLIENTSECRET } from "../common/setting/keys";
+
+import { getProductSuggestion } from "../common/utils"
 
 export default {
   components: {
@@ -213,11 +209,10 @@ export default {
 
     if (this.$route.path.startsWith("/callback")) {
       this.handleAuthCallback(this.$route);
-    }
-
-    if (this.$route.fullPath !== "/") {
       this.$router.replace("/");
     }
+
+    console.log(getProductSuggestion(10000000000))
   },
   destroyed() {
     clearInterval(this.retryInterval);

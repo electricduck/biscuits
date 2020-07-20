@@ -2,7 +2,7 @@
   <Page class="fill home central">
     <div class="central-inner">
       <h1 class="s-no-margin">Hello.</h1>
-      <h2 class="s-light-weight">Welcome to Biscuits.</h2>
+      <h2 class="s-light-weight">Welcome to <span class="brand"></span>.</h2>
       <p>
         <Button link="/accounts/0">
           Go to my Monzo account

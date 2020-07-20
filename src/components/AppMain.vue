@@ -1,9 +1,16 @@
 <template>
-  <div class="app-main fill">
+  <div class="app-main fill" :class="{ 'app-main--content-visible' : contentVisible }">
     <div class="app-main-panel app-main-panel--sidebar">
       <Sidebar />
     </div>
     <div class="app-main-panel app-main-panel--content">
+      <ActionBar :transparent="true" v-if="barVisible">
+        <template v-slot:left>
+          <ActionBarItem>
+            <Button @handle="goBack()" icon="arrow-left">Back</Button>
+          </ActionBarItem>
+        </template>
+      </ActionBar>
       <router-view />
     </div>
   </div>
@@ -14,28 +21,99 @@
 
 export default {
   components: {
+    ActionBar: () =>
+      import(/* webpackPrefetch: true */ "@/components/ActionBar.vue"),
+    ActionBarItem: () =>
+      import(/* webpackPrefetch: true */ "@/components/ActionBarItem.vue"),
+    Button: () =>
+      import(/* webpackPrefetch: true */ "@/components/Button.vue"),
     Sidebar: () =>
       import(/* webpackPrefetch: true */ "@/components/Sidebar.vue")
+  },
+  computed: {
+    barVisible: function() {
+
+      return ((
+        this.$route.name !== "Home"
+      )) ? true : false
+    },
+    contentVisible: function() {
+      return (this.$route.path !== "/") ? true : false
+    }
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1) // TODO: Go home if there is no history
+    }
   }
 }
 </script>
 
 <style lang="scss">
+@import "@/scss/shared/_mixins.scss";
+@import "@/scss/shared/_variables.scss";
+
 .app-main {
+  $sidebar-width: 450px;
+
   display: grid;
-  grid-template-columns: 450px 1fr;
+  grid-template-columns: 1fr;
   overflow: hidden;
 
+  &.app-main--content-visible {
+    .app-main-panel {
+      &.app-main-panel--content {
+        display: block;
+      }
+
+      &.app-main-panel--sidebar {
+        display: none;
+      }
+    }
+  }
+
   .app-main-panel {
-    border-right: 1px solid var(--border-color);
+    border-color: var(--border-color);
+    border-style: solid;
+    border-width: 0;
     overflow-y: auto;
 
-    &:last-of-type {
-      border-right-width: 0;
+    &.app-main-panel--content {
+      display: none;
     }
 
     &.app-main-panel--sidebar {
       box-shadow: var(--shadow);
+    }
+  }
+
+  @include respond-to(small) {
+    grid-template-columns: 1fr $sidebar-width 1fr;
+
+    .app-main-panel {
+      &.app-main-panel--content {
+        grid-column-start: 1;
+        grid-column-end: 4;
+      }
+
+      &.app-main-panel--sidebar {
+        border-width: 0 1px;
+        grid-column: 2;
+      }
+    }
+  }
+
+  @include respond-to(large) {
+    grid-template-columns: $sidebar-width 1fr;
+
+    .app-main-panel {
+      border-left-width: 0 !important;
+      display: block !important;
+      grid-column: unset !important;
+
+      &:last-of-type {
+        border-right-width: 0;
+      }
     }
   }
 }

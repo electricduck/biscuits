@@ -1,3 +1,5 @@
+//import Balance from "../models/Balance"
+
 export const getCurrencySymbol = (code = "") => {
   code = code.toLowerCase()
 
@@ -172,5 +174,46 @@ export const getCurrencySymbol = (code = "") => {
       return "Z$";
     default:
       return "¤";
+  }
+}
+
+export const getProductSuggestion = (amount = 0 /*balance = new Balance()*/) => {
+  //let amount = balance.amount
+
+  function randomProduct(amount = 0) {
+    function product(name = "", cost = 0) {
+      return {
+        cost: cost,
+        name: name
+      }
+    }
+
+    let products = [
+      product("Costa flat white", 240),
+      product("2019 Dacia Sandero Access", 6995)
+    ]
+
+    let affordableProducts = []
+
+    for (let i = 0; i < products.length; i++) {
+      if(products[i].cost <= amount) {
+        affordableProducts.push(products[i])
+      } else {
+        break;
+      }
+    }
+
+    return affordableProducts[Math.floor(Math.random() * products.length)];
+  }
+
+  let product = randomProduct(amount)
+
+  if(product) {
+    let productTimes = Math.trunc(amount / product.cost)
+    return (productTimes > 1) ?
+      `${productTimes} ${product.name}'s` :
+      `a ${product.name}`
+  } else {
+    return "nothing"
   }
 }

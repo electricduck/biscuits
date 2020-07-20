@@ -10,13 +10,15 @@ const handle = async (
   if(!response.ok) {
     let code = response.status
     let error = ""
+    let throwErr = false
 
-    if(code === 403) {
+    if(code === 401) {
       await auth.logout()
     }
 
     if(code >= 400 && code < 600) {
       error = `HTTP ${code}`
+      throwErr = true
       await response.json().then((data) => {
         if (data) {
           error += ` (${data["code"]})
@@ -25,7 +27,9 @@ ${data["message"]}`
       })
     }
 
-    throw new Error(error)
+    if(throwErr) {
+      throw new Error(error)
+    }
   }
 
   return response.json()
@@ -75,7 +79,7 @@ const request = async (
       method: method
     }
   )
-  
+
   return handle(response)
 }
 

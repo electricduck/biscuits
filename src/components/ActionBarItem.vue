@@ -8,7 +8,7 @@
 
 <style lang="scss">
 .action-bar-item {
-  color: var(--accent-fg-color) !important;
+  color: inherit !important;
   display: inline-grid;
   font-size: 18px;
   height: 100%;
@@ -22,13 +22,13 @@
   .button {
     background-color: unset;
     box-shadow: unset;
-    color: var(--accent-fg-color) !important;
+    color: inherit !important;
     padding: 0;
 
     .button-icon {
       padding: 0;
     }
-    
+
     .button-text {
       display: none;
     }

@@ -1,7 +1,7 @@
 <template>
   <div class="sidebar fill">
     <div class="sidebar-profile">
-      <ProfileHeader />
+      <SidebarHeader />
     </div>
     <div class="sidebar-content">
       <keep-alive>
@@ -9,15 +9,11 @@
       </keep-alive>
     </div>
     <div class="sidebar-nav">
-      <TabBar>
-        <TabBarItem
-          v-for="item in tabs"
-          :key="item.title"
-          :active="tab === item.component"
-          @handle="switchTab(item.component)"
-          :icon="item.icon"
-        >{{ item.title || item.component }}</TabBarItem>
-      </TabBar>
+      <SidebarNav
+        @navigate="switchTab"
+        :selected="tab"
+        :tabs="tabs"
+      />
     </div>
   </div>
 </template>
@@ -25,8 +21,10 @@
 <script>
 export default {
   components: {
-    ProfileHeader: () =>
-      import(/* webpackPrefetch: true */ "@/components/ProfileHeader.vue"),
+    SidebarHeader: () =>
+      import(/* webpackPrefetch: true */ "@/components/SidebarHeader.vue"),
+    SidebarNav: () =>
+      import(/* webpackPrefetch: true */ "@/components/SidebarNav.vue"),
     TabBar: () => import(/* webpackPrefetch: true */ "@/components/TabBar.vue"),
     TabBarItem: () =>
       import(/* webpackPrefetch: true */ "@/components/TabBarItem.vue")
@@ -38,22 +36,46 @@ export default {
       tabs: [
         {
           component: "Accounts",
-          icon: "wallet"
+          icon: "wallet",
+          overflow: false
         },
         {
           component: "Pots",
-          icon: "coins"
+          icon: "coins",
+          overflow: false
+        },
+        {
+          component: "Webhooks",
+          icon: "tasks",
+          overflow: true
+        },
+        {
+          icon: "play",
+          link: "/playground",
+          overflow: true,
+          title: "Playground"
         },
         {
           component: "Settings",
+          icon: "cog",
+          overflow: true
+        },
+        {
+          component: "About",
+          icon: "info-circle",
+          overflow: true
+        }/*,
+        {
+          component: "Applets",
           icon: "cog"
-        }
+        },
+        */
       ]
     };
   },
   methods: {
     switchTab(tab) {
-      this.tab = tab || "Accounts"
+      this.tab = tab || this.tabs[0].component
       this.tabComponent = () =>
         import(`@/components/SidebarTabs/${this.tab}SidebarTab.vue`);
     }
@@ -74,10 +96,24 @@ export default {
   grid-template-rows: auto 1fr auto;
 
   .sidebar-content {
+    min-height: 100px;
     overflow-y: auto;
   }
 
-  @include respond-to(medium) {
+  .sidebar-nav {
+    grid-row: 3;
+  }
+
+  @include respond-to(mobile-only) {
+    .sidebar-nav {
+      .tab-bar-overflow-menu {
+        bottom: calc(100% + #{$padding / 2});
+        top: unset;
+      }
+    }
+  }
+
+  @include respond-to(small) {
     grid-template-rows: auto auto 1fr;
 
     .sidebar-content {
