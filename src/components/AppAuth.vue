@@ -229,8 +229,7 @@ export default {
     width: 400px;
 
     .panel-inner {
-      padding-bottom: #{$padding * 2};
-      padding-top: #{$padding * 2};
+      padding: #{$padding * 2} $padding;
     }
   }
 }

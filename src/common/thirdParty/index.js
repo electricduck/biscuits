@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
   faArrowLeft,
+  faBolt,
   faCheck, faChevronRight, faCog, faCoins, faCookieBite,
   faEllipsisH,
   faFileAlt,
@@ -11,8 +12,8 @@ import {
   faMobile,
   faPlay, faPlus,
   faRedoAlt,
-  faSignInAlt, faSignOutAlt, faSync,
-  faTasks,
+  faSignInAlt, faSignOutAlt, faSpinner, faSync,
+  faTasks, faTimes,
   faWallet
 } from "@fortawesome/free-solid-svg-icons"
 import {
@@ -23,6 +24,7 @@ const thirdParty = {
   FontAwesome() {
     library.add(
       faArrowLeft,
+      faBolt,
       faCheck, faChevronRight, faCog, faCoins, faCookieBite,
       faEllipsisH,
       faFileAlt,
@@ -31,8 +33,8 @@ const thirdParty = {
       faMobile,
       faPlay, faPlus,
       faRedoAlt,
-      faSignInAlt, faSignOutAlt, faSync,
-      faTasks,
+      faSignInAlt, faSignOutAlt, faSpinner, faSync,
+      faTasks, faTimes,
       faWallet,
 
       faGithub

@@ -1,5 +1,5 @@
 <template>
-  <BaseLayout class="sidebar-accounts" :loaded="loaded">
+  <BaseLayout class="sidebar-accounts" :header-visible="false" :loaded="loaded">
     <CardsList :cards="$store.state.accounts.allAccounts" />
   </BaseLayout>
 </template>
@@ -16,19 +16,14 @@ export default {
   computed: {
     loaded: function() {
       if((
-        this.$store.state.accounts.allAccounts.length > 0 &&
-        this.$store.state.balance.allBalances.length > 0
+        this.$store.state.accounts.loaded/* &&
+        this.$store.state.balance.allBalances.length > 0*/
       )) {
         return true;
       } else {
         return false;
       }
     }
-  },
-
-  async beforeMount() {
-    this.$store.dispatch('invokeAccounts')
-    this.$store.dispatch('invokeBalances')
   }
 };
 </script>

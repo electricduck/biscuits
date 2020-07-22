@@ -25,7 +25,7 @@ export default {
     };
   },
   methods: {
-    init() {
+    auth() {
       this.$auth.init().then(() => {
         this.loaded = true;
       });
@@ -44,9 +44,7 @@ export default {
 
   created() {
     this.handleErrors();
-  },
-  mounted() {
-    this.init();
+    this.auth();
   }
 };
 </script>

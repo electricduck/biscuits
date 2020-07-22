@@ -35,7 +35,7 @@
     .modal {
       background-color: var(--background-color);
       border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      box-shadow: var(--heavy-shadow);
       color: var(--foreground-color);
       display: inline-block;
       grid-column: 3;

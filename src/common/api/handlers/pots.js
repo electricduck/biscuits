@@ -30,8 +30,6 @@ const pots = {
       }
     }
 
-    //console.log(pots)
-
     return pots
   }
 }

@@ -4,15 +4,9 @@
       <Sidebar />
     </div>
     <div class="app-main-panel app-main-panel--content">
-      <ActionBar :transparent="true" v-if="barVisible">
-        <template v-slot:left>
-          <ActionBarItem>
-            <Button @handle="goBack()" icon="arrow-left">Back</Button>
-          </ActionBarItem>
-        </template>
-      </ActionBar>
       <router-view />
     </div>
+    <AppMainBuffer />
   </div>
 </template>
 
@@ -21,29 +15,14 @@
 
 export default {
   components: {
-    ActionBar: () =>
-      import(/* webpackPrefetch: true */ "@/components/ActionBar.vue"),
-    ActionBarItem: () =>
-      import(/* webpackPrefetch: true */ "@/components/ActionBarItem.vue"),
-    Button: () =>
-      import(/* webpackPrefetch: true */ "@/components/Button.vue"),
+    AppMainBuffer: () =>
+      import(/* webpackPrefetch: true */ "@/components/AppMainBuffer.vue"),
     Sidebar: () =>
       import(/* webpackPrefetch: true */ "@/components/Sidebar.vue")
   },
   computed: {
-    barVisible: function() {
-
-      return ((
-        this.$route.name !== "Home"
-      )) ? true : false
-    },
     contentVisible: function() {
       return (this.$route.path !== "/") ? true : false
-    }
-  },
-  methods: {
-    goBack() {
-      this.$router.go(-1) // TODO: Go home if there is no history
     }
   }
 }

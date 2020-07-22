@@ -26,8 +26,6 @@
     overflow: auto;
 
     .panel-inner {
-      padding: $padding;
-
       &:empty {
         display: none;
       }

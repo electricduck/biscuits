@@ -12,6 +12,10 @@ const handle = async (
     let error = ""
     let throwErr = true
 
+    if(code === 418) {
+      throw new Error("☕ I'm a teapot")
+    }
+
     if(code === 401) {
       await auth.logout()
       throwErr = false
@@ -41,8 +45,12 @@ const request = async (
   data = {},
   auth = true
 ) => {
+  if(endpoint.startsWith("http:") || endpoint.startsWith("https:")) {
+    prefix = ""
+  }
+
   let form = null
-  let query = ""
+  let path = `${prefix}${endpoint}`
   let token = ""
 
   if (auth) {
@@ -61,15 +69,15 @@ const request = async (
         form.append(key, value)
       }
     } else {
-      query = "?"
+      path += "?"
       for (let [key, value] of entries) {
-        query += `${key}=${value}&`
+        path += `${key}=${value}&`
       }
     }
   }
 
   let response = await fetch(
-    `${prefix}${endpoint}${query}`,
+    path,
     {
       body: form,
       cache: 'default',

@@ -1,19 +1,28 @@
 <template>
   <DualColumnLayout class="transactions">
-    <router-link to="/accounts/acc_00009pjHH1ANXTGyzijvMH">test 1</router-link><br />
+    <TransactionsList
+      :prefix="'/' + $route.params.accountId"
+      :transactions="transactions" 
+    />
   </DualColumnLayout>
 </template>
 
 <script>
-import DualColumnLayout from "@/components/Layouts/DualColumnLayout.vue";
-
 export default {
   components: {
-    DualColumnLayout
+    DualColumnLayout: () =>
+      import(/* webpackPrefetch: true */ "@/components/Layouts/DualColumnLayout.vue"),
+    TransactionsList: () =>
+      import(/* webpackPrefetch: true */ "@/components/TransactionsList.vue"),
   },
-
-  beforeMount() {
-    this.$store.dispatch('invokeTransactions', 'acc_00009pjDWvoCpI4Jf8cMRl')
+  computed: {
+    transactions: function() {
+      if(this.$store.state.transactions.allTransactions.length > 0) {
+        return this.$store.state.transactions.allTransactions[0].data // HARCODED
+      } else {
+        return null
+      }
+    }
   }
 };
 </script>

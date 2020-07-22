@@ -35,10 +35,24 @@ export default {
       tabComponent: null,
       tabs: [
         {
-          component: "Accounts",
-          icon: "wallet",
+          component: "Applets",
+          icon: "bolt",
           overflow: false
-        }/*,
+        },
+        {
+          component: "Accounts",
+          default: true,
+          icon: "wallet",
+          overflow: false,
+          title: "Money"
+        },
+        {
+          component: "Settings",
+          icon: "cog",
+          overflow: true
+        }
+        
+        /*,
         {
           component: "Pots",
           icon: "coins",
@@ -75,9 +89,18 @@ export default {
   },
   methods: {
     switchTab(tab) {
-      this.tab = tab || this.tabs[0].component
-      this.tabComponent = () =>
-        import(`@/components/SidebarTabs/${this.tab}SidebarTab.vue`);
+      this.tab = tab || (this.tabs.find(t => t.default === true).component)
+    }
+  },
+  watch: {
+    tab: {
+      immediate: true,
+      handler(currentTab) {
+        if(currentTab) {
+          this.tabComponent = () =>
+            import(`@/components/SidebarTabs/${currentTab}SidebarTab.vue`);
+        }
+      }
     }
   },
 

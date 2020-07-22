@@ -1,5 +1,5 @@
 <template>
-  <BaseLayout class="sidebar-pots" :loaded="$store.state.pots.loaded">
+  <BaseLayout class="sidebar-pots" :header-visible="false" :loaded="$store.state.pots.loaded">
     <CardsList :cards="$store.state.pots.allPots" />
   </BaseLayout>
 </template>
@@ -12,10 +12,6 @@ export default {
   components: {
     BaseLayout,
     CardsList
-  },
-
-  async beforeMount() {
-    this.$store.dispatch('invokePots')
   }
 }
 </script>

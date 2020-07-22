@@ -1,11 +1,19 @@
 <template>
-  <BaseLayout class="dual-column-layout" :loaded="loaded">
+  <BaseLayout
+    class="dual-column-layout"
+    :class="{ 'dual-column-layout--panel-visible' : panelVisible }"
+    :header-transparent="true"
+    :loaded="loaded"
+  >
+    <div class="dual-column-layout-left" ref="left">
+      <slot></slot>
+    </div>
     <template v-slot:outer>
-      <div class="base-layout-content dual-column-layout-left">
-        <slot></slot>
-      </div>
-      <div class="base-layout-content dual-column-layout-right">
-        <Panel v-if="panelVisible">
+      <div class="dual-column-layout-right" ref="right">
+        <Panel>
+          <template v-slot:header>
+            <ActionBar />
+          </template>
           <router-view />
         </Panel>
       </div>
@@ -14,49 +22,86 @@
 </template>
 
 <script>
-import BaseLayout from "@/components/Layouts/BaseLayout.vue"
-import Panel from "@/components/Panel.vue"
-
 export default {
   components: {
-    BaseLayout,
-    Panel
+    ActionBar: () =>
+      import(/* webpackPrefetch: true */ "@/components/ActionBar.vue"),
+    BaseLayout: () =>
+      import(/* webpackPrefetch: true */ "@/components/Layouts/BaseLayout.vue"),
+    Panel: () =>
+      import(/* webpackPrefetch: true */ "@/components/Panel.vue")
   },
   data: function() {
     return {
       panelVisible: Boolean
-    }
+    };
   },
   methods: {
+    calculateSizes() {
+      let narrowClass = "dual-column-layout--narrow";
+
+      let left = this.$refs.left;
+      let right = this.$refs.right;
+      let content = left.parentElement;
+      let base = left.parentElement.parentElement;
+
+      let panelOffset = content.offsetWidth - content.clientWidth;
+      let baseMinWidth =
+        450 * 2.25 + // 450: $panel-width
+        20 * 2 + // 20: $padding
+        panelOffset;
+
+      if (base.clientWidth <= baseMinWidth) {
+        base.classList.add(narrowClass);
+      } else {
+        base.classList.remove(narrowClass);
+      }
+
+      if (panelOffset >= 0) {
+        left.style.paddingRight = `${panelOffset}px`;
+        right.style.marginRight = `${panelOffset}px`;
+      }
+    },
+    handleResize() {
+      var self = this;
+      let exists = setInterval(function() {
+        if (
+          self.$refs !== undefined &&
+          self.$refs.left !== undefined &&
+          self.$refs.right !== undefined
+        ) {
+          self.calculateSizes();
+          window.addEventListener("resize", self.calculateSizes);
+          clearInterval(exists);
+        }
+      }, 100); // HACK: Due to v-if's in various parents (I think?), we can't get these refs right on mounted, so we need to wait for them to be created
+    },
     setPanelVisibility() {
-      const findMe = (match) => {
-        if((
+      const findMe = match => {
+        if (
           match.parent &&
           match.parent.components &&
           match.parent.components.default &&
           match.parent.components.default.components &&
           match.parent.components.default.components.DualColumnLayout
-        )) {
-          if((
-            match.components &&
-            match.components.default
-          )) {
+        ) {
+          if (match.components && match.components.default) {
             return true;
           } else {
             return false;
           }
         } else {
-          if(match.parent) {
-            return findMe(match.parent)
+          if (match.parent) {
+            return findMe(match.parent);
           }
         }
-      }
+      };
 
       let found = this.$route.matched.filter(m => {
         return m.name === this.$route.name;
       });
 
-      this.panelVisible = findMe(found[0])
+      this.panelVisible = findMe(found[0]);
     }
   },
   props: {
@@ -72,8 +117,15 @@ export default {
         this.setPanelVisibility();
       }
     }
+  },
+
+  mounted() {
+    this.handleResize();
+  },
+  destroyed() {
+    window.removeEventListener("resize", this.calculateSizes);
   }
-}
+};
 </script>
 
 <style lang="scss">
@@ -81,82 +133,76 @@ export default {
 @import "@/scss/shared/_variables.scss";
 
 .dual-column-layout {
-  display: grid;
-  grid-template-columns: 1fr 450px;
-  grid-template-rows: auto auto;
-  padding: $padding;
+  $panel-width: 450px;
 
-  & > * {
-    grid-column-start: 1;
-    grid-column-end: 3;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+
+  &.dual-column-layout--narrow {
+    .base-layout-content {
+      .dual-column-layout-left {
+        width: 100%;
+      }
+    }
+
+    .dual-column-layout-right .panel {
+      box-shadow: var(--heavy-shadow);
+    }
+  }
+
+  &.dual-column-layout--panel-visible {
+    .dual-column-layout-right {
+      display: block;
+    }
   }
 
   .base-layout-content {
-    &.dual-column-layout-left,
-    &.dual-column-layout-right {
-      grid-column-start: 1;
-      grid-column-end: 3;
-      padding-right: $padding;
+    height: 100%;
+    overflow-y: scroll;
 
-      &:last-child {
-        padding-right: 0;
+    .dual-column-layout-left {
+      width: calc(100% - #{$panel-width + $padding});
+    }
+  }
+
+  .dual-column-layout-right {
+    display: none;
+    height: calc(100% - #{$padding * 2});
+    position: absolute;
+    right: $padding;
+    top: $padding;
+    width: $panel-width;
+
+    .panel {
+      height: 100%;
+    }
+  }
+
+  @include respond-to(mobile-only) {
+    .base-layout-content {
+      overflow: hidden;
+
+      .dual-column-layout-left {
+        padding-right: 0 !important;
       }
     }
 
-    &.dual-column-layout-left {
-      grid-row-start: 1;
-      grid-row-end: 3;
-    }
-
-    &.dual-column-layout-right {
-      grid-row: 1;
+    .dual-column-layout-right {
+      background-color: var(--overlay-color);
+      height: 100%;
+      margin-right: 0 !important;
+      right: 0;
+      top: 0;
+      width: 100%;
 
       .panel {
-        height: calc(100vh - #{$padding * 2});
-      }
-    }
-
-    &.dual-column-layout-right,
-    &.dual-column-layout-right .panel {
-      position: sticky;
-      top: $padding;
-    }
-
-    @include respond-to(mobile-only) {
-      &.dual-column-layout-right .panel {
-        border-radius: 0;
-        height: 100% !important;
-        left: 0;
-        margin-top: 0;
-        position: fixed;
-        top: 0 !important;
-      }
-    }
-
-    @include respond-to(small) {
-      &.dual-column-layout-right {
-        grid-column: 2;
-      }
-    }
-
-    @include respond-to(xlarge) {
-      &.dual-column-layout-left {
-        grid-column: 1;
+        border-bottom-right-radius: unset;
+        border-top-right-radius: unset;
+        margin-left: auto;
+        max-width: $panel-width;
       }
     }
   }
 }
-
-.action-bar {
-  & + .page {
-    .panel {
-      margin-top: -#{$action-bar-height - $padding};
-    }
-
-    .dual-column-layout-right,
-    .dual-column-layout-right .panel {
-      top: $action-bar-height;
-    }
-  }
-}  // TODO: This is really hacky. Find another way?
 </style>

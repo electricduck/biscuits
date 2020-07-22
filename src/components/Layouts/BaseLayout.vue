@@ -9,22 +9,45 @@
       </p>
     </div>
     <div class="base-layout-content">
+      <ActionBar class="base-layout-content-header" :transparent="headerTransparent" v-if="headerVisible">
+        <template v-slot:left>
+          <ActionBarItem>
+            <Button @handle="goBack()" icon="arrow-left">Back</Button>
+          </ActionBarItem>
+        </template>
+      </ActionBar>
       <slot></slot>
     </div>
-    <slot name="outer">
-
-    </slot>
+    <slot name="outer"></slot>
   </Page>
 </template>
 
 <script>
-import Page from "@/components/Page"
-
 export default {
   components: {
-    Page
+    ActionBar: () =>
+      import(/* webpackPrefetch: true */ "@/components/ActionBar.vue"),
+    ActionBarItem: () =>
+      import(/* webpackPrefetch: true */ "@/components/ActionBarItem.vue"),
+    Button: () =>
+      import(/* webpackPrefetch: true */ "@/components/Button.vue"),
+    Page: () =>
+      import(/* webpackPrefetch: true */ "@/components/Page.vue"),
+  },
+  methods: {
+    goBack() {
+      this.$router.go(-1) // TODO: Go home if there is no history
+    }
   },
   props: {
+    headerTransparent: {
+      default: false,
+      type: Boolean
+    },
+    headerVisible: {
+      default: true,
+      type: Boolean
+    },
     loaded: {
       default: true,
       type: Boolean
@@ -37,6 +60,8 @@ export default {
 @import "@/scss/shared/_variables.scss";
 
 .base-layout {
+  position: relative;
+
   &.base-layout--loaded {
     .base-layout-content {
       display: block;

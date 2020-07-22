@@ -1,66 +1,89 @@
 import db from "../../common/db"
+import accountsApi from "../../common/api/handlers/accounts"
 import transactionsApi from "../../common/api/handlers/transactions"
 import { transactionsTbl } from "../../common/db/instances"
 import Transactions from "../../models/Transactions"
 
 const transactions = {
   state: () => ({
-    allTransactions: new Transactions({})
+    allTransactions: [],
+    loaded: false
   }),
 
   mutations: {
-    allTransactions(state, payload) {
-      db.set(transactionsTbl, payload.id, payload).then((data) => {
-        state.allTransactions = data
+    allTransactions_setTransaction(state, payload) {
+      let id = payload.id
+      let transactions = payload
+
+      db.set(transactionsTbl, id, transactions).then((data) => {
+        id = data.id
+        transactions = data
+
+        let found = state.allTransactions.find(t => t.id === id)
+
+        if(found) {
+          found.transactions = transactions
+        } else {
+          state.allTransactions.push(transactions)
+        }
       })
     },
-    allTransactions_push(state, payload) {
-      db.get(transactionsTbl, payload.id).then((data) => {
-        db.set(transactionsTbl, data.id, new Transactions({
-          data: data.data.concat(payload.data),
-          id: data.id,
-          lastUpdated: new Date()
-        }))
-      })
+    loadedTransactions(state, toggle) {
+      state.loaded = toggle
     }
   },
 
   actions: {
-    invokeTransactions(context, accountId) {
-      db.get(transactionsTbl, accountId).then((data) => {
-        let transactions = new Transactions({});
-        let init = (data) ? false : true;
-        let before = new Date();
-        let since = !init ? data.lastUpdated : new Date("2020-07-01T00:00:00.000Z");
+    invokeTransactions(context) {
+      // TODO: Put into another method so we can use awaits instead of this horrible promise chain?
+      accountsApi.getAccounts().then((accountsFromApi) => {
+        //let allTransactions = []
+        let accountIds = []
+        let dbPromises = []
+        let apiPromises = []
 
-        console.log(since)
-
-        transactionsApi.getTransactions(accountId, since, before).then((data) => {
-          let transactionsData = [];
-
-          for (let i = 0; i < data.transactions.length; i++) {
-            transactionsData.push(data.transactions[i])
+        for (let i = 0; i < accountsFromApi.accounts.length; i++) {
+          let accountId = accountsFromApi.accounts[i].id
+          accountIds.push(accountId)
+          dbPromises.push(db.get(transactionsTbl, accountId))
+        }
+        
+        Promise.all(dbPromises).then((dbPromise) => {
+          for (let i = 0; i < dbPromise.length; i++) {
+            let init = (dbPromise[i]) ? false : true;
+            let before = new Date();
+            let since = !init ? dbPromise[i].lastUpdated : new Date("2020-05-20T00:00:00.000Z");
+          
+            apiPromises.push(transactionsApi.getTransactions(accountIds[i], since, before))
           }
 
-          transactions = new Transactions({
-            data: transactionsData,
-            id: accountId,
-            lastUpdated: new Date(Date.now())
+          Promise.all(apiPromises).then((apiPromise) => {
+            for (let i2 = 0; i2 < apiPromise.length; i2++) {
+              let transactionsData = [];
+
+              for (let i3 = 0; i3 < apiPromise[i2].transactions.length; i3++) {
+                transactionsData.push(apiPromise[i2].transactions[i3])
+              }
+
+              let transactions =
+                new Transactions({
+                  data: dbPromise[i2] ? dbPromise[i2].data.concat(transactionsData) : transactionsData,
+                  id: accountIds[i2],
+                  lastUpdated: new Date(Date.now())
+                })
+
+              context.commit('allTransactions_setTransaction', transactions)
+              context.commit('loadedTransactions', true)
+            }
           })
-
-          if(init) {
-            context.commit('allTransactions', transactions)
-          } else {
-            console.log(transactions)
-            context.commit('allTransactions_push', transactions)
-          }
         })
       })
     }
   },
 
   getters: {
-    allTransactions: state => { return state.allTransactions }
+    allTransactions: state => { return state.allTransactions },
+    loadedTransactions: state => { return state.loaded }
   }
 }
 

@@ -6,12 +6,16 @@ import Balance from "../../models/Balance"
 const balance = {
   state: () => ({
     allBalances: [],
+    loaded: false,
     totalBalance: new Balance({})
   }),
 
   mutations: {
     allBalances(state, payload) {
       state.allBalances = payload
+    },
+    loadedBalance(state, toggle) {
+      state.loaded = toggle
     },
     totalBalance(state, payload) {
       state.totalBalance = payload
@@ -56,6 +60,7 @@ const balance = {
           )
 
           context.commit('allBalances', balances)
+          context.commit('loadedBalance', true)
         })
       })
     }
@@ -63,6 +68,7 @@ const balance = {
 
   getters: {
     allBalances: state => { return state.allBalances },
+    loadedBalance: state => { return state.loaded },
     totalBalance: state => { return state.totalBalance }
   }
 }

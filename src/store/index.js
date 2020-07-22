@@ -5,6 +5,7 @@ import { TOKEN } from "../common/setting/keys"
 
 import accounts from "./modules/accounts"
 import balance from "./modules/balance"
+import ducks from "./modules/ducks"
 import pots from "./modules/pots"
 import transactions from "./modules/transactions"
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   modules: {
     accounts,
     balance,
+    ducks,
     pots,
     transactions
   },

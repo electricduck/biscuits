@@ -4,7 +4,7 @@
       v-for="card in cards"
       :key="card.id"
       class="cards-list-item"
-      :to="prefix(card.type) + card.id"
+      :to="prefix + card.id"
     >
       <div class="cards-list-item-indicator">
         <font-awesome-icon class="cards-list-item-indicator-svg" icon="chevron-right" />
@@ -29,22 +29,12 @@ export default {
     Balance,
     Card
   },
-  methods: {
-    prefix(type) {
-      switch(type) {
-        case "pot":
-          return "/pots/"
-        default:
-          return "/accounts/"
-      }
-    }
-  },
   props: {
-    cards: {}
-  },
-
-  beforeMount() {
-    this.$store.dispatch("invokeBalances");
+    cards: {},
+    prefix: {
+      default: '/',
+      type: String
+    }
   }
 };
 </script>

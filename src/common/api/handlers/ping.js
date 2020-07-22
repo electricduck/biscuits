@@ -3,7 +3,7 @@ import base from "../base"
 const prefix = "/ping"
 
 const ping = {
-  async getPong() {
+  async getPing() {
     return base.get(
       `${prefix}`
     )

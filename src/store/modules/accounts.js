@@ -5,7 +5,8 @@ import Person from "../../models/Person"
 const accounts = {
   state: () => ({
     allAccounts: [],
-    defaultAccount: new Card({})
+    defaultAccount: new Card({}),
+    loaded: false
   }),
 
   mutations: {
@@ -14,6 +15,9 @@ const accounts = {
     },
     defaultAccount(state, payload) {
       state.defaultAccount = payload
+    },
+    loadedAccounts(state, toggle) {
+      state.loaded = toggle
     }
   },
 
@@ -54,13 +58,15 @@ const accounts = {
 
         context.commit('allAccounts', accounts)
         context.commit('defaultAccount', accounts[0])
+        context.commit('loadedAccounts', true)
       })
     },
   },
 
   getters: {
     allAccounts: state => { return state.allAccounts },
-    defaultAccount: state => { return state.defaultAccount }
+    defaultAccount: state => { return state.defaultAccount },
+    loadedAccounts: state => { return state.loaded }
   }
 }
 
