@@ -41,6 +41,9 @@ const thirdParty = {
     )
 
     Vue.component('font-awesome-icon', FontAwesomeIcon)
+  },
+  Moment() {
+    Vue.use(require('vue-moment'))
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
   <DualColumnLayout class="transactions">
-    <TransactionsList :prefix="prefx" :transactions="transactions" />
+    <TransactionsList :prefix="prefix" :transactions="transactions" />
   </DualColumnLayout>
 </template>
 
@@ -16,11 +16,24 @@ export default {
   },
   computed: {
     prefix: function() {
-      return `/${this.$route.params.style}/${this.$route.params.accountId}`
+      return `/${this.$route.params.style}/${this.$route.params.accountId}`;
     },
     transactions: function() {
-      if (this.$store.state.transactions.allTransactions.length > 0) {
-        return this.$store.state.transactions.allTransactions[0].data; // HARCODED
+      let allTransactions = this.$store.state.transactions.allTransactions;
+      if (allTransactions) {
+        let accountTransactions = allTransactions.filter(s => {
+          return s.id === this.$route.params.accountId;
+        });
+
+        if (accountTransactions.length > 0) {
+          return accountTransactions[0].data.sort((a, b) => {
+            if (a.created < b.created) return 1;
+            if (a.created > b.created) return -1;
+            return 0;
+          });
+        } else {
+          return null;
+        }
       } else {
         return null;
       }

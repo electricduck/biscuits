@@ -21,7 +21,7 @@ const transactions = {
 
         let found = state.allTransactions.find(t => t.id === id)
 
-        if(found) {
+        if (found) {
           found.transactions = transactions
         } else {
           state.allTransactions.push(transactions)
@@ -47,13 +47,13 @@ const transactions = {
           accountIds.push(accountId)
           dbPromises.push(db.get(transactionsTbl, accountId))
         }
-        
+
         Promise.all(dbPromises).then((dbPromise) => {
           for (let i = 0; i < dbPromise.length; i++) {
             let init = (dbPromise[i]) ? false : true;
             let before = new Date();
             let since = !init ? dbPromise[i].lastUpdated : new Date("2020-05-20T00:00:00.000Z");
-          
+
             apiPromises.push(transactionsApi.getTransactions(accountIds[i], since, before))
           }
 

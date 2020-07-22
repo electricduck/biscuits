@@ -20,7 +20,7 @@ export default {
       }
     },
     operator: function() {
-      if (this.computedBalance) {
+      if (this.computedBalance && this.computedBalance.amount !== 0) {
         if (this.computedBalance.negative) {
           return this.negativeVisible ? "-" : "";
         } else {

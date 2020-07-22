@@ -4,9 +4,6 @@
     <span class="central central--no-padding transactions-list-item-letter" v-show="!image">
       <span class="central-inner">{{ letter }}</span>
     </span>
-    <span class="central central--no-padding transactions-list-item-icon">
-      <font-awesome-icon class="central-inner transactions-list-item-icon-svg" :icon="icon" />
-    </span>
     <span class="transactions-list-item-name">
       <span v-show="name">{{ name }}</span>
       <em v-show="!name">Unknown</em>
@@ -16,7 +13,10 @@
       <em v-show="!description">No notes</em>
     </span>
     <span class="central central--no-horizontal central--no-padding transactions-list-item-category">
-      <Category :category="category" class="central-inner" />
+      <Category :category="category" class="central-inner" fixed-width />
+    </span>
+    <span class="central central--no-padding transactions-list-item-icon">
+      <font-awesome-icon class="central-inner transactions-list-item-icon-svg" :icon="icon" />
     </span>
     <span
       class="central central--no-horizontal central--no-padding transactions-list-item-cost"
@@ -119,7 +119,7 @@ export default {
   column-gap: #{$padding / 2};
   display: grid;
   font-weight: inherit !important;
-  grid-template-columns: auto auto 1fr auto auto;
+  grid-template-columns: auto 1fr auto auto auto;
   grid-template-rows: 1fr auto auto 1fr;
   line-height: 1;
   padding: $padding;
@@ -127,6 +127,7 @@ export default {
 
   .transactions-list-item-category,
   .transactions-list-item-cost,
+  .transactions-list-item-icon,
   .transactions-list-item-image,
   .transactions-list-item-letter {
     grid-row-start: 1;
@@ -135,21 +136,22 @@ export default {
   }
 
   .transactions-list-item-description,
+  .transactions-list-item-icon {
+    opacity: 0.4;
+  }
+
+  .transactions-list-item-description,
   .transactions-list-item-name {
     display: block;
-    grid-column: 3;
+    grid-column: 2;
     overflow: hidden;
+    padding: 0 #{$padding / 2};
     text-overflow: ellipsis;
     white-space: nowrap;
 
     em {
       opacity: 0.5;
     }
-  }
-
-  .transactions-list-item-icon,
-  .transactions-list-item-name {
-    grid-row: 2;
   }
 
   .transactions-list-item-image,
@@ -165,7 +167,7 @@ export default {
   }
 
   .transactions-list-item-category {
-    grid-column: 4;
+    grid-column: 3;
   }
 
   .transactions-list-item-cost {
@@ -183,13 +185,11 @@ export default {
     font-size: #{$name-font-size / 1.75};
     grid-row: 3;
     line-height: #{$name-font-size / 1.166666};
-    opacity: 0.4;
   }
 
   .transactions-list-item-icon {
-    color: var(--primary-color);
     font-size: 1em;
-    grid-column: 2;
+    grid-column: 4;
     padding-left: #{$padding / 3};
 
     .transactions-list-item-icon-svg {
@@ -207,8 +207,9 @@ export default {
 
   .transactions-list-item-name {
     font-family: $display-fonts;
-    line-height: $name-font-size;
     font-size: $name-font-size;
+    grid-row: 2;
+    line-height: $name-font-size;
   }
 }
 </style>

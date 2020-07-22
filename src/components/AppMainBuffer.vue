@@ -46,7 +46,8 @@ export default {
         this.$store.state[this.buffer[0].key].loaded &&
         this.$store.state[this.buffer[1].key].loaded &&
         this.$store.state[this.buffer[2].key].loaded &&
-        this.$store.state[this.buffer[3].key].loaded // TODO: Better way of doing this
+        this.$store.state[this.buffer[3].key].loaded &&
+        this.$store.state[this.buffer[4].key].loaded // TODO: Better way of doing this
       ) {
         return true
       } else {
@@ -71,6 +72,11 @@ export default {
           dispatch: "invokeDucks",
           key: "ducks",
           name: "Ducks"
+        },
+        {
+          dispatch: "invokePots",
+          key: "pots",
+          name: "Pots"
         },
         {
           dispatch: "invokeTransactions",

@@ -1,11 +1,20 @@
 <template>
   <div class="transactions-list">
-    <TransactionsListItem
-      v-for="transaction in transactions"
+    <div
+      v-for="(transaction, index) in transactions"
       :key="transaction.id"
-      :link="`${prefix}/${transaction.id}`"
-      :transaction="transaction"
-    />
+      class="transactions-list-group"
+    >
+      <div
+        class="transactions-list-group-date"
+        v-if="showHeader(transactions[index], transactions[index-1])"
+      >{{ transactions[index].created | moment("Do MMMM 'YY") }}</div>
+      <TransactionsListItem
+        class="transactions-list-group-item"
+        :link="`${prefix}/${transactions[index].id}`"
+        :transaction="transactions[index]"
+      />
+    </div>
   </div>
 </template>
 
@@ -16,6 +25,21 @@ export default {
       import(
         /* webpackPrefetch: true */ "@/components/TransactionsListItem.vue"
       )
+  },
+  methods: {
+    showHeader(currentTransaction, previousTransaction) {
+      //.substring(0,10)
+      if (
+        currentTransaction &&
+        previousTransaction &&
+        currentTransaction.created.substring(0, 10) !==
+          previousTransaction.created.substring(0, 10)
+      ) {
+        return true;
+      } else {
+        return false;
+      }
+    }
   },
   props: {
     prefix: String,
@@ -29,7 +53,23 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/scss/shared/_variables.scss";
+
 .transactions-list {
   display: block;
+
+  .transactions-list-group {
+    &:first-of-type {
+      .transactions-list-group-date {
+        padding-top: 0;
+      }
+    }
+
+    .transactions-list-group-date {
+      font-size: 0.8em;
+      font-weight: 700;
+      padding: #{$padding * 2} $padding 0 $padding;
+    }
+  }
 }
 </style>

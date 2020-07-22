@@ -18,6 +18,7 @@ Vue.prototype.$store = store
 }*/
 
 thirdParty.FontAwesome()
+thirdParty.Moment()
 
 new Vue({
   router,
