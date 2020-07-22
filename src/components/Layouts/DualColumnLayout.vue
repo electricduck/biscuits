@@ -38,7 +38,7 @@ export default {
   },
   methods: {
     calculateSizes() {
-      let narrowClass = "dual-column-layout--narrow";
+      let wideClass = "dual-column-layout--wide";
 
       let left = this.$refs.left;
       let right = this.$refs.right;
@@ -52,9 +52,9 @@ export default {
         panelOffset;
 
       if (base.clientWidth <= baseMinWidth) {
-        base.classList.add(narrowClass);
+        base.classList.remove(wideClass);
       } else {
-        base.classList.remove(narrowClass);
+        base.classList.add(wideClass);
       }
 
       if (panelOffset >= 0) {
@@ -122,6 +122,9 @@ export default {
   mounted() {
     this.handleResize();
   },
+  updated() {
+    this.handleResize();
+  },
   destroyed() {
     window.removeEventListener("resize", this.calculateSizes);
   }
@@ -139,15 +142,16 @@ export default {
   min-height: 100%;
   overflow: hidden;
 
-  &.dual-column-layout--narrow {
+  &.dual-column-layout--wide { // TODO: Make the default always narrow?
     .base-layout-content {
       .dual-column-layout-left {
-        width: 100%;
+        width: calc(100% - #{$panel-width + $padding});
+        //width: 100%;
       }
     }
 
     .dual-column-layout-right .panel {
-      box-shadow: var(--heavy-shadow);
+      box-shadow: var(--shadow);
     }
   }
 
@@ -162,7 +166,8 @@ export default {
     overflow-y: scroll;
 
     .dual-column-layout-left {
-      width: calc(100% - #{$panel-width + $padding});
+      width: 100%;
+      //width: calc(100% - #{$panel-width + $padding});
     }
   }
 
@@ -175,6 +180,7 @@ export default {
     width: $panel-width;
 
     .panel {
+      box-shadow: var(--heavy-shadow);
       height: 100%;
     }
   }

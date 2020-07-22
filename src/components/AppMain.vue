@@ -11,12 +11,11 @@
 </template>
 
 <script>
-
+import AppMainBuffer from "@/components/AppMainBuffer.vue"
 
 export default {
   components: {
-    AppMainBuffer: () =>
-      import(/* webpackPrefetch: true */ "@/components/AppMainBuffer.vue"),
+    AppMainBuffer,
     Sidebar: () =>
       import(/* webpackPrefetch: true */ "@/components/Sidebar.vue")
   },
