@@ -4,18 +4,16 @@
       v-for="card in cards"
       :key="card.id"
       class="cards-list-item"
-      :to="prefix + card.id"
+      :to="`${prefix}/${card.id}`"
     >
       <div class="cards-list-item-indicator">
         <font-awesome-icon class="cards-list-item-indicator-svg" icon="chevron-right" />
       </div>
       <Card class="cards-list-item-card" :image="card.image" :type="card.type" />
       <div class="cards-list-item-balance">
-        <Balance :id="card.id" />
+        <Balance :id="card.id" :negative-visible="false" :positive-visible="false" />
       </div>
-      <div class="cards-list-item-title">
-        {{ card.title }}
-      </div>
+      <div class="cards-list-item-title">{{ card.title }}</div>
     </router-link>
   </div>
 </template>
@@ -32,7 +30,7 @@ export default {
   props: {
     cards: {},
     prefix: {
-      default: '/',
+      default: "/transactions",
       type: String
     }
   }

@@ -13,22 +13,10 @@ const transactions = {
       {
         'account_id': accountId,
         'before': before.toJSON(),
+        'expand[]': 'merchant',
         'since': since.toJSON()
       }
     )
-  },
-  async getAllTransactions(
-    accountIds = [],
-    since = new Date(),
-    before = new Date()
-  ) {
-    let out = []
-
-    for (let i = 0; i < accountIds.length; i++) {
-      out.push(await this.getTransactions(accountIds[i], since, before))
-    }
-
-    return out
   }
 }
 

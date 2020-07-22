@@ -6,9 +6,10 @@ export default class Balance {
     currency = "",
     id = ""
   }) {
-    this.amount = amount
+    this.amount = Math.abs(amount)
     this.currency = currency
     this.id = id
+    this.negative = (amount < 0) ? true : false
 
     this.absolute = (Math.trunc(this.amount / 100)).toString()
     this.decimal = (Math.round(((this.amount / 100) % 1) * 100)).toString().padStart(2, '00')

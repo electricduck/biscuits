@@ -18,7 +18,7 @@ const routes = [
     component: Home
   },
   {
-    path: '/:accountId',
+    path: '/:style(map|transactions)/:accountId',
     name: 'Transactions',
     component: () => import(/* webpackChunkName: "about" */ '../views/Transactions.vue'),
     children: [

@@ -38,24 +38,11 @@ export default {
   },
   methods: {
     calculateSizes() {
-      let wideClass = "dual-column-layout--wide";
-
       let left = this.$refs.left;
       let right = this.$refs.right;
       let content = left.parentElement;
-      let base = left.parentElement.parentElement;
 
       let panelOffset = content.offsetWidth - content.clientWidth;
-      let baseMinWidth =
-        450 * 2.25 + // 450: $panel-width
-        20 * 2 + // 20: $padding
-        panelOffset;
-
-      if (base.clientWidth <= baseMinWidth) {
-        base.classList.remove(wideClass);
-      } else {
-        base.classList.add(wideClass);
-      }
 
       if (panelOffset >= 0) {
         left.style.paddingRight = `${panelOffset}px`;
@@ -136,24 +123,9 @@ export default {
 @import "@/scss/shared/_variables.scss";
 
 .dual-column-layout {
-  $panel-width: 450px;
-
   height: 100%;
   min-height: 100%;
   overflow: hidden;
-
-  &.dual-column-layout--wide { // TODO: Make the default always narrow?
-    .base-layout-content {
-      .dual-column-layout-left {
-        width: calc(100% - #{$panel-width + $padding});
-        //width: 100%;
-      }
-    }
-
-    .dual-column-layout-right .panel {
-      box-shadow: var(--shadow);
-    }
-  }
 
   &.dual-column-layout--panel-visible {
     .dual-column-layout-right {
@@ -167,7 +139,6 @@ export default {
 
     .dual-column-layout-left {
       width: 100%;
-      //width: calc(100% - #{$panel-width + $padding});
     }
   }
 
@@ -177,7 +148,7 @@ export default {
     position: absolute;
     right: $padding;
     top: $padding;
-    width: $panel-width;
+    width: $dual-column-layout-panel-width;
 
     .panel {
       box-shadow: var(--heavy-shadow);
@@ -187,8 +158,6 @@ export default {
 
   @include respond-to(mobile-only) {
     .base-layout-content {
-      overflow: hidden;
-
       .dual-column-layout-left {
         padding-right: 0 !important;
       }
@@ -206,7 +175,7 @@ export default {
         border-bottom-right-radius: unset;
         border-top-right-radius: unset;
         margin-left: auto;
-        max-width: $panel-width;
+        max-width: $dual-column-layout-panel-width;
       }
     }
   }

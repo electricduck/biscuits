@@ -12,7 +12,7 @@
         </ActionBarItem>
       </template>
     </ActionBar>
-    <Balance :balance="this.$store.state.balance.totalBalance" class="sidebar-header-balance" />
+    <Balance :balance="this.$store.state.balance.totalBalance" class="sidebar-header-balance" :negative-visible="false" :positive-visible="false" />
     <div class="sidebar-header-description">
       <strong>
         {{ this.$store.state.accounts.defaultAccount.owners[0].fullName }}

@@ -13,7 +13,9 @@ $lighter-filter: brightness(1.1);
 $padding: 20px;
 $pressed-scale: scale(0.95);
 $serif-fonts: 'Sen', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+$slow-transition-speed: 1s;
 $transition-speed: 0.2s;
 
 // Components
 $action-bar-height: 52px;
+$dual-column-layout-panel-width: 450px;

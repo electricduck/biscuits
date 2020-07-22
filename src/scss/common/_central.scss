@@ -5,6 +5,21 @@
   grid-template-columns: 1fr $padding auto $padding 1fr;
   grid-template-rows: 1fr $padding auto auto auto $padding 1fr;
 
+  &.central--no-padding {
+    grid-template-columns: 1fr auto auto auto 1fr;
+    grid-template-rows: 1fr 0 auto auto auto 0 1fr;
+  }
+
+  &.central--no-horizontal {
+    grid-template-columns: auto;
+
+    .central-inner,
+    .central-above,
+    .central-below {
+      grid-column: 1;
+    }
+  }
+
   .central-inner,
   .central-above,
   .central-below {

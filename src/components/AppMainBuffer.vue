@@ -1,5 +1,5 @@
 <template>
-  <Modal class="app-main-buffer" v-if="!done">
+  <Modal class="app-main-buffer" :class="{ 'app-main-buffer--done' : done }">
     <Page>
       <h1 class="app-main-buffer-spinner s-center-align">
         <font-awesome-icon icon="spinner" pulse />
@@ -102,11 +102,28 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/scss/shared/_variables.scss";
+
 .app-main-buffer {
   backdrop-filter: blur(10px);
+  transition: $slow-transition-speed;
+
+  &.app-main-buffer--done {
+    backdrop-filter: unset;
+    background-color: unset;
+    opacity: 0;
+    pointer-events: none;
+    visibility: hidden;
+    
+    .modal {
+      opacity: 0;
+      transform: scale(0);
+    }
+  }
 
   .modal {
     background-color: var(--accent-color) !important;
+    transition: #{$slow-transition-speed / 2};
     
     .page {
       color: var(--accent-fg-color);

@@ -114,8 +114,6 @@ import Panel from "@/components/Panel.vue";
 import setting from "../common/setting";
 import { MONZO_CLIENTID, MONZO_CLIENTSECRET } from "../common/setting/keys";
 
-import { getProductSuggestion } from "../common/utils"
-
 export default {
   components: {
     ActionBar,
@@ -195,6 +193,7 @@ export default {
     state: {
       immediate: true,
       handler(currentState) {
+        console.log(currentState)
         if (currentState === "third_party_developer_app.pre_verification") {
           this.retryInterval = setInterval(this.handleAuthRefresh, 2000);
         } else {
@@ -211,8 +210,6 @@ export default {
       this.handleAuthCallback(this.$route);
       this.$router.replace("/");
     }
-
-    console.log(getProductSuggestion(10000000000))
   },
   destroyed() {
     clearInterval(this.retryInterval);

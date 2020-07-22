@@ -34,4 +34,10 @@
       @content
     }
   }
+
+  @else {
+    @media (min-width: $media) {
+      @content;
+    }
+  }
 }

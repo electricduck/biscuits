@@ -39,14 +39,16 @@ const balance = {
         ]).then((data) => {
           for (let i = 0; i < data.length; i++) {
             for (let i2 = 0; i2 < data[i].length; i2++) {
+              let accountBalance = parseInt(data[i][i2].total_balance)
+              
               balances.push(new Balance({
-                amount: data[i][i2].balance,
+                amount: accountBalance,
                 currency: data[i][i2].currency,
                 id: data[i][i2].id || accountIds[i2]
               }))
     
-              if(data[i][i2].total_balance) {
-                totalBalance += parseInt(data[i][i2].total_balance)
+              if(accountBalance) {
+                totalBalance += accountBalance
               }
             }
           }

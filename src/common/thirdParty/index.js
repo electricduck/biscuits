@@ -2,14 +2,14 @@ import Vue from "vue"
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
-  faArrowLeft,
+  faArrowDown, faArrowLeft, faArrowUp,
   faBolt,
   faCheck, faChevronRight, faCog, faCoins, faCookieBite,
   faEllipsisH,
   faFileAlt,
   faHome,
   faInfoCircle,
-  faMobile,
+  faMinus, faMobile,
   faPlay, faPlus,
   faRedoAlt,
   faSignInAlt, faSignOutAlt, faSpinner, faSync,
@@ -23,14 +23,14 @@ import {
 const thirdParty = {
   FontAwesome() {
     library.add(
-      faArrowLeft,
+      faArrowDown, faArrowLeft, faArrowUp,
       faBolt,
       faCheck, faChevronRight, faCog, faCoins, faCookieBite,
       faEllipsisH,
       faFileAlt,
       faHome,
       faInfoCircle,
-      faMobile,
+      faMinus, faMobile,
       faPlay, faPlus,
       faRedoAlt,
       faSignInAlt, faSignOutAlt, faSpinner, faSync,
