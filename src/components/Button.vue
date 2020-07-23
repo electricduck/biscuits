@@ -63,9 +63,7 @@ export default {
   color: var(--primary-fg-color) !important;
   display: inline-grid;
   grid-template-columns: 1fr auto auto 1fr;
-  grid-template-rows: 1fr auto 1fr;
   font-size: inherit;
-  line-height: 1;
   padding: 1.4em;
 
   &.button--disabled {
@@ -91,12 +89,6 @@ export default {
 
   &.button--wide {
     display: grid;
-  }
-
-  .button-icon,
-  .button-text {
-    grid-row: 2;
-    vertical-align: middle;
   }
 
   .button-icon {
