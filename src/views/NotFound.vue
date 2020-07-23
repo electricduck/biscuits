@@ -1,23 +1,24 @@
 <template>
-  <Page class="fill home central">
-    <div class="central-inner">
-      <h1 class="s-no-margin">Hmm.</h1>
-      <h2 class="s-light-weight">I can't find that.</h2>
-      <p>
-        <Button icon="home" link="/">Home</Button>
-      </p>
+  <BaseLayout :fill="true">
+    <div class="central fill not-found">
+      <div class="central-inner">
+        <h1 class="s-no-margin">Hmm.</h1>
+        <h2 class="s-light-weight">I can't find that.</h2>
+        <p>
+          <Button icon="home" link="/">Home</Button>
+        </p>
+      </div>
     </div>
-  </Page>
+  </BaseLayout>
 </template>
 
 <script>
-import Button from "@/components/Button.vue";
-import Page from "@/components/Page.vue";
-
 export default {
   components: {
-    Button,
-    Page
+    BaseLayout: () =>
+      import(/* webpackPrefetch: true */ "@/components/Layouts/BaseLayout.vue"),
+    Button: () =>
+      import(/* webpackPrefetch: true */ "@/components/Button.vue"),
   }
 };
 </script>
@@ -25,7 +26,7 @@ export default {
 <style lang="scss">
 @import "@/scss/shared/_variables.scss";
 
-.home {
+.not-found {
   .central-inner {
     max-width: $med-width;
   }

@@ -8,10 +8,10 @@ $xlg-width: 1600px;
 // Generic
 $darker-filter: brightness(0.9);
 $display-fonts: 'Sora', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-$hover-scale: scale(1.05);
+$high-transparency: 0.4;
 $lighter-filter: brightness(1.1);
+$low-transparency: 0.8;
 $padding: 20px;
-$pressed-scale: scale(0.95);
 $serif-fonts: 'Sen', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 $slow-transition-speed: 1s;
 $transition-speed: 0.2s;

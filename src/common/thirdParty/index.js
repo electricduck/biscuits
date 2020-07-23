@@ -1,4 +1,5 @@
 import Vue from "vue"
+import Vuelidate from 'vuelidate'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -44,6 +45,9 @@ const thirdParty = {
   },
   Moment() {
     Vue.use(require('vue-moment'))
+  },
+  Vuelidate() {
+    Vue.use(Vuelidate)
   }
 }
 

@@ -1,8 +1,5 @@
 <template>
   <div class="action-bar" :class="{ 'action-bar--transparent' : transparent }">
-    <div class="action-bar-content">
-      <slot name="content"></slot>
-    </div>
     <div class="action-bar-float">
       <div class="action-bar-left">
         <slot name="left"></slot>
@@ -37,43 +34,23 @@ export default {
   position: relative;
 
   & + .fill {
-    margin-top: -#{$action-bar-height};
-    padding-top: #{$action-bar-height};
+    height: calc(100% - #{$action-bar-height});
+    min-height: calc(100% - #{$action-bar-height});
+    //margin-top: -#{$action-bar-height};
+    //padding-top: #{$action-bar-height + $padding};
   }
 
   &.action-bar--transparent {
     background-color: unset;
-    box-shadow: unset;
     color: inherit;
 
     .action-bar-item {
       color: inherit;
     }
-
-    & + .base-layout,
-    & + .fill {
-      padding-top: 0 !important;
-    }
   }
 
-  .action-bar-content,
   .action-bar-item {
     pointer-events: auto;
-  }
-
-  .action-bar-content {
-    color: var(--accent-fg-color);
-    font-size: 14px;
-    padding: $action-bar-height $padding $padding $padding;
-
-    &:empty {
-      display: none;
-    }
-
-    a {
-      border-bottom-color: var(--accent-fg-color);
-      color: inherit;
-    }
   }
 
   .action-bar-float {

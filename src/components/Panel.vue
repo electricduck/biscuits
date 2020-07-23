@@ -1,15 +1,31 @@
 <template>
-  <div class="panel">
+  <div
+    class="panel"
+    :class="[
+    { 'panel--pad' : pad }
+  ]"
+  >
+    <div class="panel-header">
+      <slot name="header"></slot>
+    </div>
     <div class="panel-scroll">
-      <div class="panel-header">
-        <slot name="header"></slot>
-      </div>
       <div class="panel-inner">
         <slot></slot>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+export default {
+  props: {
+    pad: {
+      default: false,
+      type: Boolean
+    }
+  }
+};
+</script>
 
 <style lang="scss">
 @import "@/scss/shared/_variables.scss";
@@ -19,17 +35,19 @@
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   color: var(--foreground-color);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-height: 100px;
   overflow: hidden;
 
-  .panel-scroll {
-    height: 100%;
-    overflow: auto;
-
-    .panel-inner {
-      &:empty {
-        display: none;
-      }
+  &.panel--pad {
+    .panel-scroll .panel-inner {
+      padding: $padding;
     }
+  }
+
+  .panel-scroll {
+    overflow: auto;
   }
 }
 </style>

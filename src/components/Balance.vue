@@ -55,8 +55,10 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/scss/shared/_variables.scss";
+
 .balance {
-  opacity: 0.4;
+  opacity: $high-transparency;
 
   &.balance--loaded {
     opacity: 1;

@@ -4,6 +4,7 @@
     class="button"
     :href="link"
     :class="[
+      { 'button--disabled' : disabled },
       { 'button--no-text' : !textVisible },
       { 'button--transparent' : transparent },
       { 'button--wide' : wide }
@@ -22,6 +23,7 @@
 export default {
   props: {
     accent: Boolean,
+    disabled: Boolean,
     icon: String,
     link: String,
     textVisible: {
@@ -55,22 +57,21 @@ export default {
 
 .button {
   background-color: var(--primary-color);
-  border: unset !important;
+  border: none !important;
   border-radius: var(--radius);
   box-shadow: var(--shadow);
   color: var(--primary-fg-color) !important;
   display: inline-grid;
   grid-template-columns: 1fr auto auto 1fr;
+  grid-template-rows: 1fr auto 1fr;
+  font-size: inherit;
   line-height: 1;
   padding: 1.4em;
 
-  &:focus,
-  &:hover {
-    transform: $hover-scale;
-  }
-
-  &:active {
-    transform: $pressed-scale;
+  &.button--disabled {
+    filter: grayscale(1);
+    opacity: $high-transparency;
+    pointer-events: none;
   }
 
   &.button--no-text {
@@ -90,6 +91,12 @@ export default {
 
   &.button--wide {
     display: grid;
+  }
+
+  .button-icon,
+  .button-text {
+    grid-row: 2;
+    vertical-align: middle;
   }
 
   .button-icon {

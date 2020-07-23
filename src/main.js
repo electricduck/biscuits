@@ -19,6 +19,7 @@ Vue.prototype.$store = store
 
 thirdParty.FontAwesome()
 thirdParty.Moment()
+thirdParty.Vuelidate()
 
 new Vue({
   router,

@@ -137,7 +137,7 @@ export default {
 
   .transactions-list-item-description,
   .transactions-list-item-icon {
-    opacity: 0.4;
+    opacity: $high-transparency;
   }
 
   .transactions-list-item-description,

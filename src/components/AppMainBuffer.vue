@@ -137,7 +137,7 @@ export default {
   }
 
   .app-main-buffer-spinner {
-    opacity: 0.6;
+    opacity: $low-transparency;
   }
 
   .app-main-buffer-load-list {

@@ -34,7 +34,7 @@ const request = async (
     }
   )
 
-  if (!response.ok) {
+  if (!response.ok && response.status !== 418) {
     if (response.status === 401) {
       if (retryOnAuthFail) {
         auth.refresh().then(() => {
@@ -44,7 +44,7 @@ const request = async (
         auth.logout();
         // TODO: Cancel request, as currently an error will throw since `response` is null
       }
-    } else if (handleError) {
+    } else if (throwOnFailure) {
       return handleError(response)
     }
   }

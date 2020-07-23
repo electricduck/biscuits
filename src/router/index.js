@@ -18,14 +18,19 @@ const routes = [
     component: Home
   },
   {
+    path: '/playground',
+    name: 'Playground',
+    component: () => import(/* webpackChunkName: "playground" */ '../views/Playground.vue')
+  },
+  {
     path: '/:style(map|transactions)/:accountId',
     name: 'Transactions',
-    component: () => import(/* webpackChunkName: "about" */ '../views/Transactions.vue'),
+    component: () => import(/* webpackChunkName: "transactions" */ '../views/Transactions.vue'),
     children: [
       {
         path: ':transactionId',
         name: 'Transaction',
-        component: () => import(/* webpackChunkName: "about" */ '../views/Transaction.vue'),
+        component: () => import(/* webpackChunkName: "transaction" */ '../views/Transaction.vue'),
         meta: {
           ui: {
             close: '/:accountId'

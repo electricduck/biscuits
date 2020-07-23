@@ -1,6 +1,8 @@
 <template>
-  <DualColumnLayout class="transactions">
-    <TransactionsList :prefix="prefix" :transactions="transactions" />
+  <DualColumnLayout :loaded="loaded">
+    <div class="transactions">
+      <TransactionsList :prefix="prefix" :transactions="transactions" />
+    </div>
   </DualColumnLayout>
 </template>
 
@@ -32,10 +34,27 @@ export default {
             return 0;
           });
         } else {
-          return null;
+          return {};
         }
       } else {
         return null;
+      }
+    }
+  },
+  data: function() {
+    return {
+      loaded: false
+    }
+  },
+  watch: {
+    transactions: {
+      immediate: true,
+      handler(currentTransactions) {
+        if(currentTransactions !== null) {
+          this.loaded = true
+        } else {
+          this.loaded = false
+        }
       }
     }
   }

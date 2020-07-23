@@ -7,6 +7,8 @@ $mnz-accent-color: $monzo-personal-card;
 $mnz-accent-fg-color: white;
 $mnz-background-color: #f7f7f7;
 $mnz-border-color: #c8c8ca;
+$mnz-code-bg-color: #1a2533;
+$mnz-code-fg-color: invert($mnz-code-bg-color);
 $mnz-foreground-color: #1a2533;
 $mnz-heavy-shadow: 0 0 15px rgba(0,0,0,0.4);
 $mnz-input-bg-color: #ffffff;

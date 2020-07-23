@@ -1,25 +1,29 @@
 <template>
-  <Page class="fill home central">
-    <div class="central-inner">
-      <h1 class="s-no-margin">Hello.</h1>
-      <h2 class="s-light-weight">Welcome to <span class="brand"></span>.</h2>
-      <p>
-        <Button :link="`/transactions/${this.$store.state.accounts.defaultAccount.id}`">
-          Go to my Personal account
-        </Button>
-      </p>
+  <BaseLayout :fill="true" :header-visible="false">
+    <div class="central fill home">
+      <div class="central-inner">
+        <h1 class="s-no-margin">Hello.</h1>
+        <h2 class="s-light-weight">
+          Welcome to
+          <span class="brand"></span>.
+        </h2>
+        <p>
+          <Button
+            :link="`/transactions/${this.$store.state.accounts.defaultAccount.id}`"
+          >Go to my Personal account</Button>
+        </p>
+      </div>
     </div>
-  </Page>
+  </BaseLayout>
 </template>
 
 <script>
-import Button from "@/components/Button.vue";
-import Page from "@/components/Page.vue";
-
 export default {
   components: {
-    Button,
-    Page
+    BaseLayout: () =>
+      import(/* webpackPrefetch: true */ "@/components/Layouts/BaseLayout.vue"),
+    Button: () =>
+      import(/* webpackPrefetch: true */ "@/components/Button.vue"),
   }
 };
 </script>

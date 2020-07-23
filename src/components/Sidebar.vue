@@ -47,9 +47,10 @@ export default {
           title: "Money"
         },
         {
-          component: "Playground",
           icon: "play",
-          overflow: true
+          link: "/playground",
+          overflow: true,
+          title: "Playground"
         },
         {
           component: "Settings",

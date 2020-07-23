@@ -1,5 +1,8 @@
 <template>
-  <Page class="base-layout" :class="{ 'base-layout--loaded' : loaded }">
+  <Page class="base-layout" :class="[
+    { 'base-layout--loaded' : loaded },
+    { 'fill' : fill }
+  ]">
     <div class="base-layout-load">
       <p class="base-layout-load-spinner s-center-align s-low-blend">
         <strong>Just a sec!</strong>
@@ -8,8 +11,8 @@
         Hmm, this is taking longer than usual.<br />Try reloading the page.
       </p>
     </div>
-    <div class="base-layout-content">
-      <ActionBar class="base-layout-content-header" :transparent="headerTransparent" v-if="headerVisible">
+    <div class="base-layout-content" :class="{ 'fill' : fill }">
+      <ActionBar class="base-layout-content-header" :transparent="headerTransparent" v-if="headerVisible"> <!-- TODO: Show header while loading -->
         <template v-slot:left>
           <ActionBarItem>
             <Button @handle="goBack()" icon="arrow-left">Back</Button>
@@ -40,8 +43,12 @@ export default {
     }
   },
   props: {
-    headerTransparent: {
+    fill: {
       default: false,
+      type: Boolean
+    },
+    headerTransparent: {
+      default: true,
       type: Boolean
     },
     headerVisible: {

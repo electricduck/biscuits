@@ -8,6 +8,8 @@
 @import "@/scss/shared/_variables.scss";
 
 .page {
+  font-size: 16px;
+
   a {
     border-bottom: 1px solid var(--primary-color);
     color: var(--primary-color);
@@ -74,16 +76,16 @@
     }
 
     &.s-low-blend {
-      opacity: 0.4;
+      opacity: $high-transparency;
     }
   }
 
   code {
-    background-color: var(--foreground-color);
+    background-color: var(--code-bg-color);
     border-radius: var(--radius);
-    color: var(--background-color);
+    color: var(--code-fg-color);
     font-family: monospace;
-    font-size: 14px;
+    font-size: 0.8em;
     margin-left: $padding;
     margin-right: $padding;
     overflow: auto;

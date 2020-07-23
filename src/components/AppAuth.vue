@@ -1,6 +1,6 @@
 <template>
   <Page class="app-auth central fill">
-    <Panel class="app-auth-panel central-inner">
+    <Panel class="app-auth-panel central-inner" :class="{ 'app-auth-panel--more-padding' : !isSetupOpen }"  :pad="true">
       <template v-slot:header>
         <ActionBar>
           <ActionBarItem>
@@ -20,62 +20,62 @@
               <Button icon="check" @handle="saveSetup()">Save</Button>
             </ActionBarItem>
           </template>
-          <template v-slot:content>
-            <div v-if="isSetupOpen">
-              <FormItem title="Client ID">
-                <input type="text" placeholder=" " v-model="oauth.clientId" />
-              </FormItem>
-              <FormItem title="Client Secret">
-                <input type="text" placeholder=" " v-model="oauth.clientSecret" />
-              </FormItem>
-              <div class="d-well s-no-margin">
-                <p class="s-sml-size">
-                  Due to current limitations in
-                  <strong>Monzo</strong>'s API, you must set these keys yourself. Visit
-                  <a
-                    href="https://developers.monzo.com/apps/home"
-                    target="_blank"
-                  >Monzo for Developers</a> and add a new client, with the below settings:
-                </p>
-                <ul class="s-sml-size">
-                  <li>
-                    <strong>Name:</strong> Biscuits
-                  </li>
-                  <li>
-                    <strong>Redirect URLs:</strong>
-                    {{ oauth.callbackUrl }}
-                  </li>
-                  <li>
-                    <strong>Confidentiality:</strong> Confidential
-                  </li>
-                </ul>
-                <p class="s-sml-size">
-                  You'll find the
-                  <strong>Client ID</strong> and
-                  <strong>Client secret</strong> on your newly created OAuth2 app.
-                </p>
-                <p class="s-sml-size">
-                  <strong>Biscuits</strong> does not send these keys anywhere: honest! If you adorn a tin-foil hat, you can
-                  <a
-                    href="https://github.com/electricduck/biscuits"
-                    target="_blank"
-                  >sift through the code</a>, or even
-                  <a
-                    href="https://github.com/electricduck/biscuits"
-                    target="_blank"
-                  >run it yourself</a>.
-                </p>
-              </div>
-            </div>
-          </template>
         </ActionBar>
       </template>
+      <div v-if="isSetupOpen">
+        <FormItem title="Client ID">
+          <input type="text" placeholder=" " v-model="oauth.clientId" />
+        </FormItem>
+        <FormItem title="Client Secret">
+          <input type="text" placeholder=" " v-model="oauth.clientSecret" />
+        </FormItem>
+        <div class="d-well s-no-margin">
+          <p class="s-sml-size">
+            Due to current limitations in
+            <strong>Monzo</strong>'s API, you must set these keys yourself. Visit
+            <a
+              href="https://developers.monzo.com/apps/home"
+              target="_blank"
+            >Monzo for Developers</a> and add a new client, with the below settings:
+          </p>
+          <ul class="s-sml-size">
+            <li>
+              <strong>Name:</strong> Biscuits
+            </li>
+            <li>
+              <strong>Redirect URLs:</strong>
+              {{ oauth.callbackUrl }}
+            </li>
+            <li>
+              <strong>Confidentiality:</strong> Confidential
+            </li>
+          </ul>
+          <p class="s-sml-size">
+            You'll find the
+            <strong>Client ID</strong> and
+            <strong>Client secret</strong> on your newly created OAuth2 app.
+          </p>
+          <p class="s-sml-size">
+            <strong>Biscuits</strong> does not send these keys anywhere: honest! If you adorn a tin-foil hat, you can
+            <a
+              href="https://github.com/electricduck/biscuits"
+              target="_blank"
+            >sift through the code</a>, or even
+            <a
+              href="https://github.com/electricduck/biscuits"
+              target="_blank"
+            >run it yourself</a>.
+          </p>
+        </div>
+      </div>
       <div v-if="!isSetupOpen">
         <div v-if="state === 'init'">
           <h1 class="s-accent-color s-center-align s-no-height">
             <font-awesome-icon icon="cookie-bite" />
           </h1>
-          <h2 class="s-center-align s-no-margin"><span class="brand"></span></h2>
+          <h2 class="s-center-align s-no-margin">
+            <span class="brand"></span>
+          </h2>
           <p class="s-center-align s-high-blend">A tasty web client for Monzo</p>
           <p>
             <Button icon="sign-in-alt" :link="oauthUrl" :wide="true" v-if="oauthUrl">Login</Button>
@@ -221,11 +221,12 @@ export default {
 
 .app-auth {
   .app-auth-panel {
-    display: inline-block;
     width: 400px;
 
-    .panel-inner {
-      padding: #{$padding * 2} $padding;
+    &.app-auth-panel--more-padding {
+      .panel-inner {
+        padding: #{$padding * 2} $padding;
+      }
     }
   }
 }

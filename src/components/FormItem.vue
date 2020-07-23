@@ -1,5 +1,5 @@
-<template functional>
-  <label class="form-item">
+<template>
+  <label class="form-item" :class="{ 'form-item--disabled' : disabled }">
     <span class="form-item-error">
       <slot name="error"></slot>
     </span>
@@ -8,9 +8,9 @@
       <slot name="above"></slot>
     </span>
     <span class="form-item-description">
-      <slot name="description">{{ props.description }}</slot>
+      <slot name="description">{{ description }}</slot>
     </span>
-    <span class="form-item-title">{{ props.title }}</span>
+    <span class="form-item-title">{{ title }}</span>
     <span class="form-item-toggle">
       <font-awesome-icon
         icon="square"
@@ -28,6 +28,10 @@
 export default {
   props: {
     description: String,
+    disabled: {
+      default: false,
+      type: Boolean
+    },
     title: {
       default: "?",
       type: String
@@ -39,28 +43,26 @@ export default {
 <style lang="scss">
 @import "@/scss/shared/_variables.scss";
 .form-item {
-  $default-padding: $padding;
   $desc-font-size: 14px;
   $half-padding: #{$padding / 2};
   $input-font-size: 18px;
   $label-font-size: 12px;
   $textarea-font-size: 14px;
   $vertical-input-padding: $label-font-size;
+  $input-height: #{$input-font-size + $label-font-size + (($padding / 2) * 3)};
+  // TODO: Refactor to use em's
 
   color: var(--foreground-color);
   display: grid;
   grid-template-columns: 1fr auto;
   grid-template-rows: auto auto auto auto;
-  margin-bottom: $half-padding;
   width: 100%;
 
-  &:last-of-type {
-    margin-bottom: 0;
+  &.form-item--disabled {
+    opacity: $high-transparency;
+    pointer-events: none;
   }
 
-  /*& + .form-item {
-    padding-top: 0;
-  }*/
   & > input:placeholder-shown,
   & > select:not(:valid),
   & > textarea:placeholder-shown {
@@ -69,6 +71,7 @@ export default {
       padding: #{$vertical-input-padding + ($input-font-size / 2)} $half-padding;
     }
   }
+
   & > input,
   & > select,
   & > textarea {
@@ -98,6 +101,12 @@ export default {
       padding: $label-font-size $half-padding 0 $half-padding;
     }
   }
+
+  & > input,
+  & > select {
+    height: $input-height;
+  }
+
   & > input,
   & > textarea {
     &:active,
@@ -108,6 +117,7 @@ export default {
       }
     }
   }
+
   & > textarea {
     font-size: $textarea-font-size;
     //min-height: #{($vertical-input-padding * 2) + ($textarea-font-size * 6)};
@@ -115,10 +125,12 @@ export default {
     min-width: 100%;
     max-width: 100%;
   }
+
   & > input[type="file"],
   & > textarea {
     padding-top: #{($label-font-size + $vertical-input-padding) * 1.25};
   }
+
   & > input[type="checkbox"] {
     opacity: 0;
     &:active,
@@ -149,6 +161,7 @@ export default {
       }
     }
   }
+
   & > input[type="checkbox"] {
     grid-column: 2;
     height: $input-font-size;
@@ -163,9 +176,11 @@ export default {
       display: block;
     }
   }
+
   & > input[type="color"] {
     height: #{($vertical-input-padding * 2) + ($input-font-size * 2.5)};
   }
+
   .form-item-above,
   .form-item-description,
   .form-item-error,
@@ -186,7 +201,7 @@ export default {
     padding-top: #{$desc-font-size / 2};
   }
   .form-item-above {
-    margin-bottom: $default-padding;
+    margin-bottom: $padding;
     & > img {
       border: 1px solid var(--border-color);
       border-radius: var(--radius);

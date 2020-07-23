@@ -96,7 +96,7 @@ export default {
     .tab-bar-item-icon {
       float: right;
       font-size: 12px;
-      opacity: 0.4;
+      opacity: $high-transparency;
       padding-left: #{$padding / 2};
     }
   }
