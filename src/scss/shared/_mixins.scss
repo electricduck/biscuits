@@ -1,5 +1,20 @@
 @import '@/scss/shared/_variables.scss';
 
+@mixin color($variable) {
+  .c-#{$variable} {
+    background-color: var(#{'--' + $variable + '-color'});
+    color: var(#{'--' + $variable + '-fg-color'});
+  }
+
+  .c-#{$variable}-bg {
+    background-color: var(#{'--' + $variable + '-color'});
+  }
+
+  .c-#{$variable}-fg {
+    color: var(#{'--' + $variable + '-color'});
+  }
+}
+
 @mixin respond-to($media) {
   @if $media==mobile {
     @content;

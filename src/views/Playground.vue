@@ -1,7 +1,7 @@
 <template>
   <BaseLayout :fill="true">
-    <div class="fill playground">
-      <Panel class="playground-in" :pad="true" :scroll="false">
+    <div class="fill grid playground">
+      <Panel inner-class="grid playground-in" :pad="true" :scroll="false">
         <FormItem class="playground-in-url-input" title="URL">
           <input placeholder=" " type="text" v-model="vm.url" />
         </FormItem>
@@ -22,13 +22,13 @@
           icon="play"
         >Run</Button>
       </Panel>
-      <Panel class="playground-out" :pad="true" :scroll="false" v-if="result.status > 0">
+      <Panel class="c-code" inner-class="playground-out" :pad="true" :scroll="false" v-if="result.status > 0">
         <template v-slot:header>
           <ActionBar
             class="playground-out-status"
             :class="[
-              { 'playground-out-status--failure' : result.status >= 400 && result.status < 600 },
-              { 'playground-out-status--success' : result.status >= 200 && result.status < 400 }
+              { 'c-negative' : result.status >= 400 && result.status < 600 },
+              { 'c-positive' : result.status >= 200 && result.status < 400 }
             ]"
           >
             <ActionBarItem>{{ result.status }}</ActionBarItem>
@@ -126,66 +126,47 @@ export default {
   display: grid;
   grid-template-rows: auto 1fr;
   padding: $padding;
-  row-gap: #{$padding / 2};
 
-  .panel {
-    &.playground-in .panel-inner {
-      column-gap: #{$padding / 2};
-      display: grid;
-      grid-template-columns: 1fr auto;
-      grid-template-rows: auto 1fr auto;
-      row-gap: #{$padding / 2};
+  .playground-in {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto 1fr auto;
 
-      .playground-in-run-button,
-      .playground-in-data {
-        grid-column-start: 1;
-        grid-column-end: 3;
-      }
+    .playground-in-run-button,
+    .playground-in-data {
+      grid-column-start: 1;
+      grid-column-end: 3;
+    }
 
-      .playground-in-method-select,
-      .playground-in-url-input {
-        grid-row: 1;
-      }
+    .playground-in-method-select,
+    .playground-in-url-input {
+      grid-row: 1;
+    }
 
-      .playground-in-run-button {
-        grid-row: 3;
-      }
+    .playground-in-run-button {
+      grid-row: 3;
+    }
 
-      .playground-in-data {
-        grid-row: 2;
+    .playground-in-data {
+      grid-row: 2;
 
-        textarea {
-          font-family: monospace;
-        }
-      }
-
-      .playground-in-method-select {
-        grid-column: 2;
-      }
-
-      .playground-in-url-input {
-        grid-column: 1;
+      textarea {
+        font-family: monospace;
       }
     }
 
-    &.playground-out {
-      background-color: var(--code-bg-color);
-      color: var(--code-fg-color);
+    .playground-in-method-select {
+      grid-column: 2;
+    }
 
-      .playground-out-data {
-        font-family: monospace;
-        white-space: pre;
-      }
+    .playground-in-url-input {
+      grid-column: 1;
+    }
+  }
 
-      .playground-out-status {
-        &.playground-out-status--failure {
-          background-color: var(--negative-color);
-        }
-
-        &.playground-out-status--success {
-          background-color: var(--positive-color);
-        }
-      }
+  .playground-out {
+    .playground-out-data {
+      font-family: monospace;
+      white-space: pre;
     }
   }
 }

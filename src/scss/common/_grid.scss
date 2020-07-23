@@ -1,0 +1,7 @@
+@import "@/scss/shared/_variables.scss";
+
+.grid {
+  column-gap: #{$padding / 2};
+  display: grid;
+  row-gap: #{$padding / 2};
+}

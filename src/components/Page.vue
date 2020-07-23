@@ -81,7 +81,7 @@
   }
 
   code {
-    background-color: var(--code-bg-color);
+    background-color: var(--code-color);
     border-radius: var(--radius);
     color: var(--code-fg-color);
     font-family: monospace;

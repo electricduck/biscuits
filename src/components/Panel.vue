@@ -9,7 +9,7 @@
       <slot name="header"></slot>
     </div>
     <div class="panel-scroll">
-      <div class="panel-inner">
+      <div class="panel-inner" :class="innerClass">
         <slot></slot>
       </div>
     </div>
@@ -19,6 +19,7 @@
 <script>
 export default {
   props: {
+    innerClass: String,
     pad: {
       default: false,
       type: Boolean

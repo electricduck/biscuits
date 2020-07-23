@@ -38,7 +38,7 @@ const request = async (
     if (response.status === 401) {
       if (retryOnAuthFail) {
         auth.refresh().then(() => {
-          return request(endpoint, method, data, auth, throwOnFailure, false)
+          return request(endpoint, method, data, false, throwOnFailure, false)
         })
       } else {
         auth.logout();
