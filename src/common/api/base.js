@@ -8,24 +8,78 @@ const request = async (
   endpoint = "",
   method = 'GET',
   data = {},
-  auth = true,
-  handleError = true,
+  requiresAuth = true,
+  throwOnFailure = true,
   retryOnAuthFail = true
 ) => {
-  if(endpoint.startsWith("http:") || endpoint.startsWith("https:")) {
-    handleError = false
-    prefix = ""
-  }
-
-  let form = null
-  let path = `${prefix}${endpoint}`
+  let input = parseInput(endpoint, method, data)
   let token = ""
 
-  if (auth) {
+  if (requiresAuth) {
     let allTokens = await setting.get(TOKEN);
-    if(allTokens) {
+    if (allTokens) {
       token = `Bearer ${allTokens.access_token}`
     }
+  }
+
+  let response = await fetch(
+    input.path,
+    {
+      body: input.body,
+      cache: 'default',
+      headers: {
+        'Authorization': token
+      },
+      method: input.method
+    }
+  )
+
+  if (!response.ok) {
+    if (response.status === 401) {
+      if (retryOnAuthFail) {
+        auth.refresh().then(() => {
+          return request(endpoint, method, data, auth, throwOnFailure, false)
+        })
+      } else {
+        auth.logout();
+        // TODO: Cancel request, as currently an error will throw since `response` is null
+      }
+    } else if (handleError) {
+      return handleError(response)
+    }
+  }
+
+  return response
+}
+
+const handleError = async (
+  response = new Response()
+) => {
+  let code = response.status
+  let error = response.statusText
+
+  if (code >= 400 && code < 500) {
+    await response.json().then((data) => { // TODO: Handle if this is missing and/or not JSON
+      if (data) {
+        error += `${data["code"]}
+      ${data["message"]}`
+      }
+    })
+  }
+
+  throw new Error(error)
+}
+
+const parseInput = (
+  endpoint = "",
+  method = 'GET',
+  data = {}
+) => {
+  let form = null
+  let query = ""
+
+  if (endpoint.startsWith("http:") || endpoint.startsWith("https:")) {
+    prefix = ""
   }
 
   if (Object.entries(data).length > 0) {
@@ -37,64 +91,18 @@ const request = async (
         form.append(key, value)
       }
     } else {
-      path += "?"
+      query += "?"
       for (let [key, value] of entries) {
-        path += `${key}=${value}&`
+        query += `${key}=${value}&`
       }
     }
   }
 
-  let response = await fetch(
-    path,
-    {
-      body: form,
-      cache: 'default',
-      headers: {
-        'Authorization': token
-      },
-      method: method
-    }
-  )
-
-  if (response.status === 401 && retryOnAuthFail) {
-    // refresh token
-    return request(endpoint, method, data, auth, handleError, false)
-  } else if (handleError & !response.ok) {
-    // handle error
-  } else {
-    return response
+  return {
+    body: form,
+    method: method,
+    path: `${prefix}${endpoint}${query}`
   }
-}
-
-// TODO: Remove this function
-const handle = async (
-  response = new Response(),
-  handleError = true
-) => {
-  if(handleError & !response.ok) {
-    let code = response.status
-    let error = response.statusText
-    let throwError = true
-
-    if(code === 401) {
-      //await auth.logout()
-    }
-
-    if(code >= 400 && code < 500) {
-      await response.json().then((data) => {
-        if (data) {
-          error += `${data["code"]}
-       ${data["message"]}`
-        }
-      })
-    }
-
-    if(throwError) {
-      throw new Error(error)
-    }
-  }
-
-  return response
 }
 
 const base = {

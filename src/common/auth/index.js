@@ -38,6 +38,7 @@ const auth = {
     store.dispatch('updateAuth', null)
   },
   async refresh() {
+    // TODO: Start auto-refresh counter thingy
     let c = await client()
     let refreshToken = (await setting.get(TOKEN)).refresh_token;
     return new Promise((resolve) => {

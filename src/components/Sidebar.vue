@@ -47,43 +47,15 @@ export default {
           title: "Money"
         },
         {
+          component: "Playground",
+          icon: "play",
+          overflow: true
+        },
+        {
           component: "Settings",
           icon: "cog",
           overflow: true
         }
-        
-        /*,
-        {
-          component: "Pots",
-          icon: "coins",
-          overflow: false
-        },
-        {
-          component: "Webhooks",
-          icon: "tasks",
-          overflow: true
-        },
-        {
-          icon: "play",
-          link: "/playground",
-          overflow: true,
-          title: "Playground"
-        },
-        {
-          component: "Settings",
-          icon: "cog",
-          overflow: true
-        },
-        {
-          component: "About",
-          icon: "info-circle",
-          overflow: true
-        },
-        {
-          component: "Applets",
-          icon: "cog"
-        },
-        */
       ]
     };
   },
