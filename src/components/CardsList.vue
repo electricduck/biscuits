@@ -4,7 +4,7 @@
       v-for="card in cards"
       :key="card.id"
       class="cards-list-item"
-      :to="`${prefix}/${card.id}`"
+      :to="`${prefix}${card.id}`"
     >
       <div class="cards-list-item-indicator">
         <font-awesome-icon class="cards-list-item-indicator-svg" icon="chevron-right" />

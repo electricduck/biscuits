@@ -29,10 +29,17 @@ export default {
     TabBarItem: () =>
       import(/* webpackPrefetch: true */ "@/components/TabBarItem.vue")
   },
+  computed: {
+    tabComponent: function() {
+      let found = this.tabs.find(t => t.component === this.tab)
+      return found
+        ? () => import(`@/components/SidebarTabs/${found.component}SidebarTab.vue`)
+        : null;
+    }
+  },
   data: function() {
     return {
       tab: "",
-      tabComponent: null,
       tabs: [
         {
           component: "Applets",
@@ -63,17 +70,6 @@ export default {
   methods: {
     switchTab(tab) {
       this.tab = tab || (this.tabs.find(t => t.default === true).component)
-    }
-  },
-  watch: {
-    tab: {
-      immediate: true,
-      handler(currentTab) {
-        if(currentTab) {
-          this.tabComponent = () =>
-            import(`@/components/SidebarTabs/${currentTab}SidebarTab.vue`);
-        }
-      }
     }
   },
 

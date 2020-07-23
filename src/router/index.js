@@ -23,7 +23,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "playground" */ '../views/Playground.vue')
   },
   {
-    path: '/:accountId/:style(map|transactions)',
+    path: '/:accountId/:style(map|list)',
     name: 'Transactions',
     component: () => import(/* webpackChunkName: "transactions" */ '../views/Transactions.vue'),
     children: [
