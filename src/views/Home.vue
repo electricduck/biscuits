@@ -9,7 +9,7 @@
         </h2>
         <p>
           <Button
-            :link="`/transactions/${this.$store.state.accounts.defaultAccount.id}`"
+            :link="`/${this.$store.state.accounts.defaultAccount.id}`"
           >Go to my Personal account</Button>
         </p>
       </div>

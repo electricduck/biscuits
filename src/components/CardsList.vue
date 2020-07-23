@@ -30,7 +30,7 @@ export default {
   props: {
     cards: {},
     prefix: {
-      default: "/transactions",
+      default: "/",
       type: String
     }
   }
