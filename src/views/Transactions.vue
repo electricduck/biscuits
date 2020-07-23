@@ -18,7 +18,7 @@ export default {
   },
   computed: {
     prefix: function() {
-      return `/${this.$route.params.accountId}/${this.$route.params.style}`;
+      return `/${this.$route.params.accountId}`;
     },
     transactions: function() {
       let allTransactions = this.$store.state.transactions.allTransactions;
@@ -57,10 +57,6 @@ export default {
         }
       }
     }
-  },
-
-  created() {
-    // TODO: Redirect to /:accountId/list if there is no :style
   }
 };
 </script>
