@@ -8,7 +8,7 @@ const transactions = {
     since = new Date(),
     before = new Date()
   ) {
-    return base.get(
+    return base.getJson(
       `${prefix}`,
       {
         'account_id': accountId,

@@ -4,7 +4,7 @@ const prefix = "/pots"
 
 const pots = {
   async getPots(accountId = 0) {
-    return base.get(
+    return base.getJson(
       `${prefix}`,
       {
         'current_account_id': accountId
@@ -16,7 +16,7 @@ const pots = {
     let pots = []
 
     for (let i = 0; i < accountIds.length; i++) {
-      out.push(await base.get(
+      out.push(await base.getJson(
         `${prefix}`,
         {
           'current_account_id': accountIds[i]

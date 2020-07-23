@@ -4,7 +4,7 @@ const prefix = "/teapot"
 
 const teapot = {
   async getTeapot() {
-    return base.get(`${prefix}`)
+    return (await base.get(`${prefix}`, {}, false, false)).text()
   }
 }
 

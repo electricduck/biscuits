@@ -193,7 +193,6 @@ export default {
     state: {
       immediate: true,
       handler(currentState) {
-        console.log(currentState)
         if (currentState === "third_party_developer_app.pre_verification") {
           this.retryInterval = setInterval(this.handleAuthRefresh, 2000);
         } else {

@@ -4,7 +4,7 @@ const prefix = "/balance"
 
 const balance = {
   async getBalance(accountId = 0) {
-    return base.get(
+    return base.getJson(
       `${prefix}`,
       {
         'account_id': accountId
@@ -15,7 +15,7 @@ const balance = {
     let out = []
 
     for (let i = 0; i < accountIds.length; i++) {
-      out.push(await base.get(
+      out.push(await base.getJson(
         `${prefix}`,
         {
           'account_id': accountIds[i]

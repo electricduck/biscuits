@@ -4,12 +4,12 @@ const prefix = "/ping"
 
 const ping = {
   async getPing() {
-    return base.get(
+    return base.getJson(
       `${prefix}`
     )
   },
   async getWhoAmI() {
-    return base.get(
+    return base.getJson(
       `${prefix}/whoami`
     )
   }

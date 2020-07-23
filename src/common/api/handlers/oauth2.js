@@ -5,7 +5,7 @@ const prefix = "/oauth2"
 const oauth2 = {
   async postToken(
     clientId = "", clientSecret = "", redirectUri = "", authorizationCode = "") {
-    return base.post(
+    return base.postJson(
       `${prefix}/token`,
       {
         'grant_type': "authorization_code",
@@ -19,7 +19,7 @@ const oauth2 = {
   },
   async postTokenRefresh(
     clientId = "", clientSecret = "", refreshToken = "") {
-    return base.post(
+    return base.postJson(
       `${prefix}/token`,
       {
         'grant_type': "refresh_token",

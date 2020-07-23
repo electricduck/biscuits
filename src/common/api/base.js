@@ -4,48 +4,16 @@ import { TOKEN } from "../setting/keys"
 
 let prefix = "https://api.monzo.com"
 
-const handle = async (
-  response = new Response()
-) => {
-  if(!response.ok) {
-    let code = response.status
-    let error = ""
-    let throwErr = true
-
-    if(code === 418) {
-      throw new Error("☕ I'm a teapot")
-    }
-
-    if(code === 401) {
-      await auth.logout()
-      throwErr = false
-    }
-
-    if(code >= 400 && code < 600) {
-      error = `HTTP ${code}`
-      await response.json().then((data) => {
-        if (data) {
-          error += ` (${data["code"]})
-${data["message"]}`
-        }
-      })
-    }
-
-    if(throwErr) {
-      throw new Error(error)
-    }
-  }
-
-  return response.json()
-}
-
 const request = async (
   endpoint = "",
   method = 'GET',
   data = {},
-  auth = true
+  auth = true,
+  handleError = true,
+  retryOnAuthFail = true
 ) => {
   if(endpoint.startsWith("http:") || endpoint.startsWith("https:")) {
+    handleError = false
     prefix = ""
   }
 
@@ -88,16 +56,71 @@ const request = async (
     }
   )
 
-  return handle(response)
+  if (response.status === 401 && retryOnAuthFail) {
+    // refresh token
+    return request(endpoint, method, data, auth, handleError, false)
+  } else if (handleError & !response.ok) {
+    // handle error
+  } else {
+    return response
+  }
+}
+
+// TODO: Remove this function
+const handle = async (
+  response = new Response(),
+  handleError = true
+) => {
+  if(handleError & !response.ok) {
+    let code = response.status
+    let error = response.statusText
+    let throwError = true
+
+    if(code === 401) {
+      //await auth.logout()
+    }
+
+    if(code >= 400 && code < 500) {
+      await response.json().then((data) => {
+        if (data) {
+          error += `${data["code"]}
+       ${data["message"]}`
+        }
+      })
+    }
+
+    if(throwError) {
+      throw new Error(error)
+    }
+  }
+
+  return response
 }
 
 const base = {
-  async get(endpoint = "", query = {}, auth = true) {
-    return (await request(endpoint, 'GET', query, auth))
+  async get(endpoint = "", query = {}, auth = true, handleError = true) {
+    return (await request(endpoint, 'GET', query, auth, handleError))
   },
-  async post(endpoint = "", data = {}, auth = true) {
-    return (await request(endpoint, 'POST', data, auth))
+  async post(endpoint = "", data = {}, auth = true, handleError = true) {
+    return (await request(endpoint, 'POST', data, auth, handleError))
   },
+  async put(endpoint = "", data = {}, auth = true, handleError = true) {
+    return (await request(endpoint, 'PUT', data, auth, handleError))
+  },
+
+  async getJson(endpoint = "", query = {}, auth = true) {
+    return (await this.get(endpoint, query, auth)).json()
+  },
+  async postJson(endpoint = "", data = {}, auth = true) {
+    return (await this.post(endpoint, data, auth)).json()
+  },
+  async putJson(endpoint = "", data = {}, auth = true) {
+    return (await this.ur(endpoint, data, auth)).json()
+  },
+
+  async getText(endpoint = "", query = {}, auth = true) {
+    return (await this.get(endpoint, query, auth)).text()
+  }
 }
 
 export default base

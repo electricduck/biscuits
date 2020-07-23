@@ -4,7 +4,7 @@ const prefix = "/accounts"
 
 const accounts = {
   async getAccounts() {
-    return base.get(`${prefix}`)
+    return base.getJson(`${prefix}`)
   }
 }
 
