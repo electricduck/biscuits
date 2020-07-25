@@ -1,11 +1,10 @@
 export default class Transactions {
   constructor({
     data = null,
-    id = "",
-    lastUpdated = new Date()
+    id = ""
   }) {
     this.data = data
     this.id = id
-    this.lastUpdated = lastUpdated
+    this.lastUpdated = new Date()
   }
 }

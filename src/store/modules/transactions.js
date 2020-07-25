@@ -35,9 +35,7 @@ const transactions = {
 
   actions: {
     invokeTransactions(context) {
-      // TODO: Put into another method so we can use awaits instead of this horrible promise chain?
       accountsApi.getAccounts().then((accountsFromApi) => {
-        //let allTransactions = []
         let accountIds = []
         let dbPromises = []
         let apiPromises = []
@@ -50,30 +48,47 @@ const transactions = {
 
         Promise.all(dbPromises).then((dbPromise) => {
           for (let i = 0; i < dbPromise.length; i++) {
+            let now = new Date();
             let init = (dbPromise[i]) ? false : true;
-            let before = new Date();
-            let since = !init ? dbPromise[i].lastUpdated : new Date("2020-05-20T00:00:00.000Z");
+            let last90Days = new Date(now.setDate(now.getDate()-89));
+            let lastAllDays = new Date("2015-10-30T00:00:00.000Z"); // https://monzo.com/blog/2015/10/30/we-are-ready
+            let before = now;
+            let since = !init ? last90Days : lastAllDays;
 
             apiPromises.push(transactionsApi.getTransactions(accountIds[i], since, before))
           }
 
           Promise.all(apiPromises).then((apiPromise) => {
             for (let i2 = 0; i2 < apiPromise.length; i2++) {
-              let transactionsData = [];
+              let transactionsFromApi = apiPromise[i2].transactions;
+              let hasData = dbPromise[i2] ? true : false;
+              let transactionsData = hasData ? dbPromise[i2].data : transactionsFromApi;
 
-              for (let i3 = 0; i3 < apiPromise[i2].transactions.length; i3++) {
-                transactionsData.push(apiPromise[i2].transactions[i3])
+              if(hasData) {
+                for (let i3 = 0; i3 < transactionsFromApi.length; i3++) {
+                  let foundTransactionInDb = transactionsData.findIndex(t => t.id === transactionsFromApi[i3].id)
+
+                  if(foundTransactionInDb > -1) {
+                    transactionsData[foundTransactionInDb] = transactionsFromApi[i3]
+                  } else {
+                    transactionsData.push(transactionsFromApi[i3])
+                  }
+
+                  // TODO: Handle removed items
+                }
               }
 
               let transactions =
                 new Transactions({
-                  data: dbPromise[i2] ? dbPromise[i2].data.concat(transactionsData) : transactionsData,
-                  id: accountIds[i2],
-                  lastUpdated: new Date(Date.now())
+                  data: transactionsData,
+                  id: accountIds[i2]
                 })
 
               context.commit('allTransactions_setTransaction', transactions)
-              context.commit('loadedTransactions', true)
+
+              if((i2+1) === apiPromise.length) {
+                context.commit('loadedTransactions', true)
+              }
             }
           })
         })
