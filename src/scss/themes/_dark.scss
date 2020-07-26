@@ -1,0 +1,25 @@
+@import "@/scss/themes/_monzo.scss";
+
+$d-accent-color: $monzo-personal-card;
+$d-accent-fg-color: white;
+$d-background-color: invert($mnz-background-color);
+$d-border-color: darken(invert($mnz-border-color), 14%);
+$d-foreground-color: invert($mnz-foreground-color);
+$d-heavy-shadow: 0 0 25px rgba(0,0,0,0.8);
+$d-input-bg-color: invert($mnz-input-bg-color);
+$d-input-fg-color: invert($mnz-input-fg-color);
+$d-nav-bg-color: invert(#ffffff);
+$d-nav-fg-color: invert(#707c8c);
+$d-panel-bg-color: invert($mnz-panel-bg-color);
+$d-primary-color: $mnz-primary-color;
+$d-primary-fg-color: $mnz-primary-fg-color;
+$d-shadow: 0 0 10px rgba(0,0,0,0.25);
+$d-well-bg-color: rgba(255,255,255,0.05);
+$d-well-fg-color: rgba(255,255,255,0.5);
+
+$d-code-color: #1a2533;
+$d-code-fg-color: invert($d-code-color);
+$d-negative-color: #FF2053;
+$d-overlay-color: rgba(0,0,0,0.8);
+$d-positive-color: #00BA55;
+$d-radius: 5px;

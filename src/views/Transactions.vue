@@ -1,8 +1,12 @@
 <template>
   <DualColumnLayout :loaded="loaded">
-    <div class="transactions">
-      <TransactionsList :prefix="prefix" :transactions="transactions" />
-    </div>
+    <Poster class="poster--open">
+      <template v-slot:content>
+        <div class="transactions">
+          <TransactionsList :prefix="prefix" :transactions="transactions" />
+        </div>
+      </template>
+    </Poster>
   </DualColumnLayout>
 </template>
 
@@ -13,6 +17,8 @@ export default {
       import(
         /* webpackPrefetch: true */ "@/components/Layouts/DualColumnLayout.vue"
       ),
+    Poster: () =>
+      import(/* webpackPrefetch: true */ "@/components/Poster.vue"),
     TransactionsList: () =>
       import(/* webpackPrefetch: true */ "@/components/TransactionsList.vue")
   },
@@ -44,16 +50,16 @@ export default {
   data: function() {
     return {
       loaded: false
-    }
+    };
   },
   watch: {
     transactions: {
       immediate: true,
       handler(currentTransactions) {
-        if(currentTransactions !== null) {
-          this.loaded = true
+        if (currentTransactions !== null) {
+          this.loaded = true;
         } else {
-          this.loaded = false
+          this.loaded = false;
         }
       }
     }
@@ -66,15 +72,5 @@ export default {
 @import "@/scss/shared/_variables.scss";
 
 .transactions {
-  .transactions-list {
-  }
-
-  @include respond-to(
-    (($dual-column-layout-panel-width * 3.75) + ($padding * 2))
-  ) {
-    .transactions-list {
-      width: calc(100% - #{$dual-column-layout-panel-width + $padding});
-    }
-  }
 }
 </style>

@@ -8,6 +8,7 @@
 @import "@/scss/shared/_variables.scss";
 
 .page {
+  color: var(--foreground-color);
   font-size: 16px;
 
   a {
@@ -156,6 +157,7 @@
   .d-well {
     background-color: var(--well-bg-color);
     border-radius: var(--radius);
+    color: var(--well-fg-color);
   }
 }
 </style>

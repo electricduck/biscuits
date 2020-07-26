@@ -18,4 +18,6 @@ $transition-speed: 0.2s;
 
 // Components
 $action-bar-height: 52px;
-$dual-column-layout-panel-width: 450px;
+$dual-column-layout-content-width: 450px;
+$sidebar-width: $dual-column-layout-content-width;
+$transactions-list-item-icon-width: 2.5em;

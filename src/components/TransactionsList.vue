@@ -28,7 +28,6 @@ export default {
   },
   methods: {
     showHeader(currentTransaction, previousTransaction) {
-      //.substring(0,10)
       if (
         currentTransaction &&
         previousTransaction &&
@@ -66,9 +65,13 @@ export default {
     }
 
     .transactions-list-group-date {
+      background-color: var(--well-bg-color);
+      border-bottom: 1px solid var(--border-color);
+      color: var(--well-fg-color);
       font-size: 0.8em;
       font-weight: 700;
-      padding: #{$padding * 2} $padding 0 $padding;
+      padding: $padding;
+      padding-left: calc(#{$transactions-list-item-icon-width} + #{$padding * 2});
     }
   }
 }

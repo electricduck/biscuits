@@ -51,7 +51,7 @@ export default {
     padding: $padding;
 
     &:focus,
-    &:hover {
+    &.router-link-active {
       .cards-list-item-indicator {
         visibility: visible;
       }

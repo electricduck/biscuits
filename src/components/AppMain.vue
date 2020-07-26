@@ -32,8 +32,6 @@ export default {
 @import "@/scss/shared/_variables.scss";
 
 .app-main {
-  $sidebar-width: 450px;
-
   display: grid;
   grid-template-columns: 1fr;
   overflow: hidden;
@@ -58,10 +56,12 @@ export default {
 
     &.app-main-panel--content {
       display: none;
+      z-index: 90;
     }
 
     &.app-main-panel--sidebar {
       box-shadow: var(--shadow);
+      z-index: 100;
     }
   }
 

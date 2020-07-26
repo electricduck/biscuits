@@ -1,8 +1,34 @@
 @import "@/scss/shared/_mixins.scss";
 
+@import "@/scss/themes/_dark.scss";
 @import "@/scss/themes/_monzo.scss";
 
 body {
+  &.dark-theme {
+    --accent-color: #{$d-accent-color};
+    --accent-fg-color: #{$d-accent-fg-color};
+    --background-color: #{$d-background-color};
+    --border-color: #{$d-border-color};
+    --code-color: #{$d-code-color};
+    --code-fg-color: #{$d-code-fg-color};
+    --foreground-color: #{$d-foreground-color};
+    --heavy-shadow: #{$d-heavy-shadow};
+    --input-bg-color: #{$d-input-bg-color};
+    --input-fg-color: #{$d-input-fg-color};
+    --nav-bg-color: #{$d-nav-bg-color};
+    --nav-fg-color: #{$d-nav-fg-color};
+    --negative-color: #{$d-negative-color};
+    --overlay-color: #{$d-overlay-color};
+    --panel-bg-color: #{$d-panel-bg-color};
+    --positive-color: #{$d-positive-color};
+    --primary-color: #{$d-primary-color};
+    --primary-fg-color:  #{$d-primary-fg-color};
+    --radius: #{$d-radius};
+    --shadow: #{$d-shadow};
+    --well-bg-color: #{$d-well-bg-color};
+    --well-fg-color: #{$d-well-fg-color};
+  }
+
   &.monzo-theme {
     --accent-color: #{$mnz-accent-color};
     --accent-fg-color: #{$mnz-accent-fg-color};
@@ -25,6 +51,7 @@ body {
     --radius: #{$mnz-radius};
     --shadow: #{$mnz-shadow};
     --well-bg-color: #{$mnz-well-bg-color};
+    --well-fg-color: #{$mnz-well-fg-color};
   }
 
   @include color('code');

@@ -1,8 +1,13 @@
 <template>
   <router-link class="transactions-list-item" :to="link">
-    <img class="transactions-list-item-image" :src="image" v-show="image" />
-    <span class="central central--no-padding transactions-list-item-letter" v-show="!image">
-      <span class="central-inner">{{ letter }}</span>
+    <span class="transactions-list-item-icon">
+      <img class="transactions-list-item-icon-image" :src="image" v-show="image" />
+      <span
+        class="central central--no-padding transactions-list-item-icon-letter fill"
+        v-show="!image"
+      >
+        <span class="central-inner">{{ letter }}</span>
+      </span>
     </span>
     <span class="transactions-list-item-name">
       <span v-show="name">{{ name }}</span>
@@ -12,23 +17,20 @@
       <span v-show="description">{{ description }}</span>
       <em v-show="!description">No notes</em>
     </span>
-    <span class="central central--no-horizontal central--no-padding transactions-list-item-category">
-      <Category :category="category" class="central-inner" fixed-width />
-    </span>
-    <span class="central central--no-padding transactions-list-item-icon">
-      <font-awesome-icon class="central-inner transactions-list-item-icon-svg" :icon="icon" />
-    </span>
     <span
-      class="central central--no-horizontal central--no-padding transactions-list-item-cost"
+      class="transactions-list-item-cost"
       :class="{ 'transactions-list-item-cost--positive' : positive }"
     >
-      <Balance :balance="cost" class="central-inner" />
+      <Balance :balance="cost" />
+    </span>
+    <span class="transactions-list-item-category">
+      <Category :category="category" class />
     </span>
   </router-link>
 </template>
 
 <script>
-import Balance from "@/models/Balance.js"
+import Balance from "@/models/Balance.js";
 
 export default {
   components: {
@@ -54,17 +56,10 @@ export default {
       });
     },
     description: function() {
-      if(this.transaction.notes) {
+      if (this.transaction.notes) {
         return this.transaction.notes;
       } else {
         return "";
-      }
-    },
-    icon: function() {
-      if (this.transaction.local_amount > 0) {
-        return "plus";
-      } else {
-        return "minus";
       }
     },
     image: function() {
@@ -77,6 +72,11 @@ export default {
     letter: function() {
       if (this.transaction.merchant) {
         return this.transaction.merchant.name[0];
+      } else if (
+        this.transaction.counterparty &&
+        this.transaction.counterparty.name
+      ) {
+        return this.transaction.counterparty.name[0];
       } else {
         return "?";
       }
@@ -84,7 +84,10 @@ export default {
     name: function() {
       if (this.transaction.merchant) {
         return this.transaction.merchant.name;
-      } else if (this.transaction.counterparty && this.transaction.counterparty.name) {
+      } else if (
+        this.transaction.counterparty &&
+        this.transaction.counterparty.name
+      ) {
         return this.transaction.counterparty.name;
       } else {
         return "";
@@ -109,43 +112,45 @@ export default {
 @import "@/scss/shared/_variables.scss";
 
 .transactions-list-item {
-  $image-size: 64px;
-  $name-font-size: 1.4em;
+  $description-padding-top: $padding / 6;
 
-  border-color: var(--border-color) !important;
-  border-style: solid !important;
-  border-width: 0 0 1px 0 !important;
+  border-bottom: 1px solid var(--border-color) !important;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
   color: inherit !important;
   column-gap: #{$padding / 2};
   display: grid;
-  font-weight: inherit !important;
-  grid-template-columns: auto 1fr auto auto auto;
-  grid-template-rows: 1fr auto auto 1fr;
+  font-weight: 500 !important;
+  grid-template-columns: min-content 1fr auto;
+  grid-template-rows: auto 1fr;
   line-height: 1;
   padding: $padding;
-  vertical-align: middle;
 
-  .transactions-list-item-category,
-  .transactions-list-item-cost,
-  .transactions-list-item-icon,
-  .transactions-list-item-image,
-  .transactions-list-item-letter {
-    grid-row-start: 1;
-    grid-row-end: 5;
-    vertical-align: middle;
+  &:focus,
+  &.router-link-active {
+    border-left-color: var(--accent-color);
   }
 
-  .transactions-list-item-description,
-  .transactions-list-item-icon {
-    opacity: $high-transparency;
+  .transactions-list-item-cost,
+  .transactions-list-item-name {
+    font-size: calc(#{$transactions-list-item-icon-width / 1.8} - #{$description-padding-top});
+    grid-row: 1;
+  }
+
+  .transactions-list-item-category,
+  .transactions-list-item-cost {
+    text-align: right;
+  }
+
+  .transactions-list-item-category,
+  .transactions-list-item-description {
+    grid-row: 3;
   }
 
   .transactions-list-item-description,
   .transactions-list-item-name {
-    display: block;
-    grid-column: 2;
+    line-height: 1.2em;
     overflow: hidden;
-    padding: 0 #{$padding / 2};
     text-overflow: ellipsis;
     white-space: nowrap;
 
@@ -154,62 +159,65 @@ export default {
     }
   }
 
-  .transactions-list-item-image,
-  .transactions-list-item-letter {
-    background-color: var(--primary-color);
-    border-radius: var(--radius);
-    box-shadow: var(--shadow);
-    color: var(--primary-fg-color);
-    font-weight: 700;
-    grid-column: 1;
-    height: $image-size;
-    width: $image-size;
-  }
-
   .transactions-list-item-category {
+    font-size: #{$transactions-list-item-icon-width / 2.2};
     grid-column: 3;
   }
 
   .transactions-list-item-cost {
-    font-size: 1.75em;
-    grid-column: 5;
-    min-width: 5em;
-    text-align: right;
+    font-weight: 700 !important;
+    grid-column: 3;
 
     &.transactions-list-item-cost--positive {
       color: var(--positive-color);
     }
-  }
 
-  .transactions-list-item-description {
-    font-size: #{$name-font-size / 1.75};
-    grid-row: 3;
-    line-height: #{$name-font-size / 1.166666};
-  }
-
-  .transactions-list-item-icon {
-    font-size: 1em;
-    grid-column: 4;
-    padding-left: #{$padding / 3};
-
-    .transactions-list-item-icon-svg {
-      height: $name-font-size;
+    .balance {
+      & > span {
+        &:nth-of-type(1),
+        &:nth-of-type(4) {
+          font-size: 0.8em;
+        }
+      }
     }
   }
 
-  .transactions-list-item-image {
-    font-size: 0;
+  .transactions-list-item-description {
+    font-size: calc(#{$transactions-list-item-icon-width / 2.2} - #{$description-padding-top});
+    grid-column-start: 2;
+    grid-column-end: 2;
+    opacity: $high-transparency;
+    padding-top: $description-padding-top;
   }
 
-  .transactions-list-item-letter {
-    font-size: #{$image-size / 3};
+  .transactions-list-item-icon {
+    background-color: var(--primary-color);
+    border-radius: 9999px;
+    box-shadow: var(--shadow);
+    color: var(--primary-fg-color);
+    grid-column: 1;
+    grid-row-start: 1;
+    grid-row-end: 4;
+    height: $transactions-list-item-icon-width;
+    line-height: 0;
+    overflow: hidden;
+    width: $transactions-list-item-icon-width;
+
+    .transactions-list-item-icon-image {
+      height: 100%;
+      object-fit: cover;
+      width: 100%;
+    }
+
+    .transactions-list-item-icon-letter {
+      font-size: ($transactions-list-item-icon-width / 2.25);
+    }
   }
 
   .transactions-list-item-name {
     font-family: $display-fonts;
-    font-size: $name-font-size;
-    grid-row: 2;
-    line-height: $name-font-size;
+    grid-column-start: 2;
+    grid-column-end: 3;
   }
 }
 </style>

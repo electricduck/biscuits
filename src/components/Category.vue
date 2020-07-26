@@ -91,8 +91,8 @@ export default {
   computed: {
     computedCategory: function() {
       let unknownCategory = {
-        icon: "📦",
-        name: this.category
+        icon: "❔",
+        name: "Other"
       }
       let found = categories.find(c => c.key === this.category)
       return (found) ? found : unknownCategory
@@ -111,19 +111,20 @@ export default {
   background-color: #00A3D7;
   border-radius: 9999px;
   color: rgba(255,255,255,0.9);
-  font-size: 0.7em;
+  display: inline-block;
   line-height: 1;
-  padding: #{$padding / 3.5} #{$padding / 1.75};
+  font-size: 0.6em;
+  padding: 0.2em 0.6em;
   
   .category-icon {
+    display: none;
     margin-left: 4px;
   }
 
   .category-text {
     font-weight: 700;
     letter-spacing: 0.5px;
-    text-transform: uppercase;
-    vertical-align: middle;
+    text-transform: lowercase;
   }
 }
 </style>
