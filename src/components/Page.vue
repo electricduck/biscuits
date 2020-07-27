@@ -42,10 +42,10 @@
     }
 
     &.s-no-margin {
-      margin-block-end: 0;
+      margin-block-end: 0 !important;
 
       & + * {
-        margin-block-start: 0;
+        margin-block-start: 0 !important;
       }
     }
   }
@@ -110,6 +110,10 @@
 
   h2 {
     font-size: 2.5em;
+  }
+
+  h3 {
+    font-size: 1.5em;
   }
 
   p,

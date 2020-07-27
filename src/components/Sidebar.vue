@@ -1,20 +1,12 @@
 <template>
   <div class="sidebar fill">
-    <div class="sidebar-profile">
-      <SidebarHeader />
-    </div>
+    <SidebarHeader class="sidebar-header" />
     <div class="sidebar-content">
       <keep-alive>
         <component :is="tabComponent"></component>
       </keep-alive>
     </div>
-    <div class="sidebar-nav">
-      <SidebarNav
-        @navigate="switchTab"
-        :selected="tab"
-        :tabs="tabs"
-      />
-    </div>
+    <SidebarNav class="sidebar-nav" @navigate="switchTab" :selected="tab" :tabs="tabs" />
   </div>
 </template>
 
@@ -31,9 +23,10 @@ export default {
   },
   computed: {
     tabComponent: function() {
-      let found = this.tabs.find(t => t.component === this.tab)
+      let found = this.tabs.find(t => t.component === this.tab);
       return found
-        ? () => import(`@/components/SidebarTabs/${found.component}SidebarTab.vue`)
+        ? () =>
+            import(`@/components/SidebarTabs/${found.component}SidebarTab.vue`)
         : null;
     }
   },
@@ -69,7 +62,7 @@ export default {
   },
   methods: {
     switchTab(tab) {
-      this.tab = tab || (this.tabs.find(t => t.default === true).component)
+      this.tab = tab || this.tabs.find(t => t.default === true).component;
     }
   },
 

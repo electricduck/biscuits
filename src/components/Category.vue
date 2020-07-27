@@ -56,6 +56,12 @@ const categories = [
     name: "General"
   },
   {
+    color: "#C46492",
+    icon: "🎁",
+    key: "gifts",
+    name: "Gifts"
+  },
+  {
     color: "#F6C779",
     icon: "🛒",
     key: "groceries",
@@ -111,7 +117,6 @@ export default {
   background-color: #00A3D7;
   border-radius: 9999px;
   color: rgba(255,255,255,0.9);
-  display: inline-block;
   line-height: 1;
   font-size: 0.6em;
   padding: 0.2em 0.6em;

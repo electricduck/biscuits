@@ -24,7 +24,7 @@
       <Balance :balance="cost" />
     </span>
     <span class="transactions-list-item-category">
-      <Category :category="category" class />
+      <Category :category="category" />
     </span>
   </router-link>
 </template>

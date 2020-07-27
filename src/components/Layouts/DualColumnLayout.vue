@@ -144,7 +144,7 @@ export default {
       .dual-column-layout-placeholder {
         grid-row-start: 1;
         grid-row-end: 3;
-        z-index: 250;
+        z-index: 200;
       }
     }
   }

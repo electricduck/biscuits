@@ -58,7 +58,6 @@ export default {
 @import "@/scss/shared/_variables.scss";
 
 .balance {
-  display: inline-block;
   opacity: $high-transparency;
 
   &.balance--loaded {
