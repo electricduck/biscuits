@@ -15,7 +15,7 @@
     "core-js": "^3.6.5",
     "leaflet": "^1.6.0",
     "localforage": "^1.7.4",
-    "moment": "^2.27.0",
+    "moment": "^2.29.4",
     "register-service-worker": "^1.7.1",
     "simplebar-vue": "^1.5.1",
     "vue": "^2.6.11",
